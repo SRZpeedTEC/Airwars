@@ -73,9 +73,39 @@ namespace Airwars.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ArmaFinal {
+            get {
+                object obj = ResourceManager.GetObject("ArmaFinal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MainWindow {
             get {
                 object obj = ResourceManager.GetObject("MainWindow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Mapa {
+            get {
+                object obj = ResourceManager.GetObject("Mapa", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap misil {
+            get {
+                object obj = ResourceManager.GetObject("misil", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
