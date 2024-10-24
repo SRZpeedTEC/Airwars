@@ -21,6 +21,7 @@ namespace Airwars
         private Genericos genericos;
 
         private DateTime mouseDownTime;
+
         public GameWindow()
         {
             this.DoubleBuffered = true;
@@ -34,13 +35,13 @@ namespace Airwars
             Misiles = new List<Misil>();
 
             // Inicializa el arma en la posición inferior central del formulario
-            Point initialPosition = new Point((GameBox.Width / 2), GameBox.Height - 140);
+            Point initialPosition = new Point((GameBox.Width / 2), GameBox.Height - 80);
             int armaSpeed = 5;
             ArmaJugador = new ArmaJugador(initialPosition, armaSpeed);
 
             // Configura el temporizador del juego
             GameTimer = new System.Windows.Forms.Timer();
-            GameTimer.Interval = 20; // Actualiza cada 20 ms (~50 FPS)
+            GameTimer.Interval = 20; // Actualiza cada 20 ms 
             GameTimer.Tick += GameLoop;
             GameTimer.Start();
 
@@ -81,7 +82,7 @@ namespace Airwars
 
         private void GameBox_Paint(object sender, PaintEventArgs e)
         {
-            
+
             // Dibuja el arma
             ArmaJugador.Draw(e.Graphics);
 
@@ -93,6 +94,7 @@ namespace Airwars
 
             // Aquí puedes dibujar otros elementos como aviones
         }
+        
 
 
         private void GameBox_MouseDown(object sender, MouseEventArgs e)
@@ -148,16 +150,18 @@ namespace Airwars
 
         private void GameCanvas_Resize(object sender, EventArgs e)
         {
+
             if (ArmaJugador.Position.X + ArmaJugador.Sprite.Width > GameBox.Width)
             {
                 ArmaJugador.Position = new Point(GameBox.Width - ArmaJugador.Sprite.Width, ArmaJugador.Position.Y);
             }
+
         }
 
 
         private void GameWindow_Load(object sender, EventArgs e)
         {
-            // Aquí puedes inicializar componentes o variables al cargar el formulario
+            
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -181,6 +185,11 @@ namespace Airwars
         }
 
         private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
         {
 
         }

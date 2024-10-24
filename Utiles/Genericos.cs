@@ -18,5 +18,15 @@ namespace Airwars.Utiles
             Image Sprite;
             Sprite = new Bitmap(image, new Size(width, height));
         }
+
+        /*
+        public string GenerateID()
+        {
+            // Genera un ID aleatorio
+            Random rand = new Random();
+            string ID = "";
+            
+        }
+        */
     }
 }

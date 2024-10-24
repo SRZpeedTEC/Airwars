@@ -8,8 +8,8 @@ namespace Airwars.Jugador
 {
     internal class Misil
     {
-        public static int DefaultWidth { get; } = 50;
-        public static int DefaultHeight { get; } = 100;
+        public static int DefaultWidth { get; } = 25;
+        public static int DefaultHeight { get; } = 50;
 
         public Point Position { get; set; }
         public int Speed { get; set; }

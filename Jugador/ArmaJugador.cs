@@ -24,7 +24,7 @@ namespace Airwars.Jugador
             Direction = 1;
             string ImagePath = System.IO.Path.Combine("Resources", "ArmaFinal.png");
             Sprite = Image.FromFile(ImagePath);
-            Sprite = new Bitmap(Sprite, new Size(60, 145));
+            Sprite = new Bitmap(Sprite, new Size(30, 75));
             
         }
 
