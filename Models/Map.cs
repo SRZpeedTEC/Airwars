@@ -12,13 +12,12 @@ namespace Airwars.Models
     public class Map
     {
         Node[] Grafo = new Node[5];
-        int[] IDs = { 1, 2, 3, 4, 5 };
+        int[] IDs = { 0, 1, 2, 3, 4 };
         Random rand = new Random();
-
-
 
         public void GenerateMap()
         {
+
             int x = rand.Next(1, 5);
             int y = rand.Next(1, 5);
 
@@ -28,45 +27,48 @@ namespace Airwars.Models
                 Debug.WriteLine("Nodo: " + Grafo[i].ID + " Posicion: " + Grafo[i].Position.X + "," + Grafo[i].Position.Y);
             }
 
-
-            foreach (Node Node in Grafo)
-            {
-                Random random = new Random();
-                int Routes = random.Next(1, 5); //Rutas para este nodo 
-
-                int[] PossibleRoutes= IDs.Where(id => id != Node.ID).ToArray();
-
-                for (int i = 0; i < Routes; i++)
-                {
-                    int Route = random.Next(1, Routes); //Posicion de la lista del Nodo al que se le esta asociando
-                    int Peso = random.Next(1, 25);
-
-                    Node.AddRoute(Grafo[Route], Peso);
-
-                    PossibleRoutes = IDs.Where(id => id != Route).ToArray();
-
-
-                }
-
-            }
-
-            foreach (Node Node in Grafo)
-            {
-                foreach (Route Ruta in Node.Routes )
-                {
-
-                    Debug.WriteLine($"El nodo {Node.ID} tiene ruta hacia {Ruta.destination.ID}");
-                }
-            }
             
+            foreach (Node node in Grafo)
+            {
+                int routes = rand.Next(1, 3);
+                List<int> possibleRoutes = IDs.Where(id => id != node.ID).ToList(); // Rutas posibles
 
+                for (int i = 0; i < routes; i++)
+                {
+                    if (possibleRoutes.Count == 0) break;
+
+                    int RouteRandom = rand.Next(0, possibleRoutes.Count);
+                    int routeID = possibleRoutes[RouteRandom]; 
+
+                    
+                    Node destinationNode = Grafo.FirstOrDefault(n => n.ID == routeID);
+                    if (destinationNode != null)
+                    {
+                        int peso = rand.Next(1, 25);
+                        node.AddRoute(destinationNode, peso);
+                    }
+
+                    possibleRoutes.Remove(routeID); 
+                }
+            }
+
+            // Mostrar las rutas generadas
+            foreach (Node node in Grafo)
+            {
+                foreach (Route route in node.Routes)
+                {
+                    Debug.WriteLine($"El nodo {node.ID} tiene ruta hacia {route.destination.ID}");
+                }
+            }
         }
+    }
 
 
 
 
 
 
-    }                
+
+}                
    
-}
+

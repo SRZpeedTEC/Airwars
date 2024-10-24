@@ -19,7 +19,7 @@ namespace Airwars.Utiles
             Sprite = new Bitmap(image, new Size(width, height));
         }
 
-        
+
         public string GenerateID(int length)
         {
 
@@ -35,4 +35,5 @@ namespace Airwars.Utiles
             return new string(result);
 
         }
+    }
 }

@@ -27,7 +27,7 @@ namespace Airwars.Models
         public void CreateAirplane()
         {
             Airplane newAirplane = new Airplane();
-            Airplanes.Enqueue();
+            //Airplanes.Enqueue();
         }
 
     }

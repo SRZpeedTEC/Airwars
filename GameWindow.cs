@@ -1,4 +1,5 @@
 ﻿using Airwars.Jugador;
+using Airwars.Models;
 using Airwars.Utiles;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,9 @@ namespace Airwars
         {
             // Inicializa la lista de misiles
             Misiles = new List<Misil>();
+
+            Map Mapa = new Map();
+            Mapa.GenerateMap();
 
             // Inicializa el arma en la posición inferior central del formulario
             Point initialPosition = new Point((GameBox.Width / 2), GameBox.Height - 80);
@@ -149,7 +153,7 @@ namespace Airwars
             Point misilPosition = new Point(ArmaJugador.Position.X + ArmaJugador.Sprite.Width / 2 - Misil.DefaultWidth / 2, ArmaJugador.Position.Y - Misil.DefaultHeight);
             Misil nuevoMisil = new Misil(misilPosition, speed);
             Misiles.Add(nuevoMisil);
-            Console.WriteLine("Misil disparado con velocidad: " + speed);
+            Debug.WriteLine("Misil disparado con velocidad: " + speed);
         }
 
         private void GameCanvas_Resize(object sender, EventArgs e)
