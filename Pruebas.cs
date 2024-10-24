@@ -11,11 +11,14 @@ namespace Airwars
     {
         Map Mapa = new Map();
 
-        public void Main()
+        public Pruebas()
         {
+            
+        }
 
+        public void PruebaGrafo()
+        {
             Mapa.GenerateMap();
-
         }
 
     }

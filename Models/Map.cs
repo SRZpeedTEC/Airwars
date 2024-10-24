@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace Airwars.Models
             for (int i = 0; i < Grafo.Length; i++)
             {
                 Grafo[i] = new Node(i, new Point(x, y));
-                Console.WriteLine("Nodo: " + Grafo[i].ID + " Posicion: " + Grafo[i].Position.X + "," + Grafo[i].Position.Y);
+                Debug.WriteLine("Nodo: " + Grafo[i].ID + " Posicion: " + Grafo[i].Position.X + "," + Grafo[i].Position.Y);
             }
 
 
@@ -54,7 +55,7 @@ namespace Airwars.Models
                 foreach (Route Ruta in Node.Routes )
                 {
 
-                    Console.WriteLine($"El nodo {Node.ID} tiene ruta hacia {Ruta.destination.ID}");
+                    Debug.WriteLine($"El nodo {Node.ID} tiene ruta hacia {Ruta.destination.ID}");
                 }
             }
             
@@ -67,6 +68,5 @@ namespace Airwars.Models
 
 
     }                
-
-    }
+   
 }

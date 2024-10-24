@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Airwars": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

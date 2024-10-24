@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -73,6 +74,8 @@ namespace Airwars
                     Misiles.RemoveAt(i);
                 }
             }
+            
+            Console.WriteLine("Misiles: " + Misiles.Count);
 
 
             GameBox.Invalidate();
@@ -146,6 +149,7 @@ namespace Airwars
             Point misilPosition = new Point(ArmaJugador.Position.X + ArmaJugador.Sprite.Width / 2 - Misil.DefaultWidth / 2, ArmaJugador.Position.Y - Misil.DefaultHeight);
             Misil nuevoMisil = new Misil(misilPosition, speed);
             Misiles.Add(nuevoMisil);
+            Console.WriteLine("Misil disparado con velocidad: " + speed);
         }
 
         private void GameCanvas_Resize(object sender, EventArgs e)
