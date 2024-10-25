@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameWindow));
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -38,9 +39,9 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.BackColor = Color.FromArgb(255, 128, 0);
+            label1.BackColor = Color.FromArgb(255, 192, 128);
             label1.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(118, 24);
+            label1.Location = new Point(121, 39);
             label1.Name = "label1";
             label1.Size = new Size(285, 25);
             label1.TabIndex = 3;
@@ -50,9 +51,9 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.BackColor = Color.FromArgb(255, 128, 0);
+            label2.BackColor = Color.FromArgb(255, 192, 128);
             label2.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(1218, 24);
+            label2.Location = new Point(1219, 39);
             label2.Name = "label2";
             label2.Size = new Size(116, 25);
             label2.TabIndex = 4;
@@ -62,9 +63,9 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.BackColor = Color.FromArgb(255, 128, 0);
+            label3.BackColor = Color.FromArgb(255, 192, 128);
             label3.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(686, 24);
+            label3.Location = new Point(695, 39);
             label3.Name = "label3";
             label3.Size = new Size(181, 25);
             label3.TabIndex = 5;
@@ -74,17 +75,19 @@
             // GameBox
             // 
             GameBox.BackColor = Color.FromArgb(255, 224, 192);
-            GameBox.Location = new Point(234, 82);
+            GameBox.Image = (Image)resources.GetObject("GameBox.Image");
+            GameBox.Location = new Point(97, 97);
             GameBox.Name = "GameBox";
-            GameBox.Size = new Size(1121, 831);
+            GameBox.Size = new Size(1400, 811);
             GameBox.TabIndex = 6;
             GameBox.TabStop = false;
+            GameBox.Click += GameBox_Click;
             // 
             // GameWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(255, 128, 0);
+            BackColor = Color.FromArgb(255, 192, 128);
             ClientSize = new Size(1595, 907);
             Controls.Add(GameBox);
             Controls.Add(label3);
@@ -104,6 +107,6 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private PictureBox GameBox;
+        public PictureBox GameBox;
     }
 }

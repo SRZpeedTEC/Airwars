@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace Airwars.Models
 {
     public class Node
-    {
-        public int ID { get; set; }
+    {     
 
         public List<Route> Routes = new List<Route>();
 
@@ -16,18 +15,23 @@ namespace Airwars.Models
 
         public int Fuel = 100;
 
-        public Queue<Airplane> Airplanes { get; set; }
+        public Queue<Airplane> Airplanes = new Queue<Airplane>();
 
 
 
-        public Node(int id, Point position)
-        {
-            this.ID = id;
+        public Node(Point position)
+        {                     
             this.Position = position;
             this.Routes = new List<Route>();
         }
 
-        public void AddRoute(Node node, int weight)
+        public virtual void RechargeFuel() 
+        { 
+
+        }
+        
+
+        public void AddRoute(Node node, double weight)
         {
             Routes.Add(new Route(node, weight));
         }

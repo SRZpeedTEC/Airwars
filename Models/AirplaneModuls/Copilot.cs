@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Airwars.Models.AirplaneModuls
 {
-    internal class Copilot
+    public class Copilot : AirPlaneModul
     {
+        public string Rol = "Copilot";
+        public Copilot(string id)
+        {
+            this.ID = id;
+        }
     }
 }

@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Airwars.Models.AirplaneModuls
 {
-    public class Manteinance : AirPlaneModul
+    abstract public class AirPlaneModul
     {
-       
-        public string Rol = "Asistance";   
-        
-        public Manteinance(string id)
+        public string ID { get; set; }
+        public string Rol;
+        public int flightHours;
+
+        public void Fly()
         {
-            this.ID = id;
+            flightHours++;
         }
     }
 }

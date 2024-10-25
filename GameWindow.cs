@@ -1,5 +1,6 @@
 ﻿using Airwars.Jugador;
 using Airwars.Models;
+using Airwars.Models.AirplaneModuls;
 using Airwars.Utiles;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace Airwars
         private List<Misil> Misiles;
         private System.Windows.Forms.Timer GameTimer;
         private Genericos genericos;
+        public Airport airport = new Airport(1, new Point(0, 0));
 
         private DateTime mouseDownTime;
 
@@ -78,8 +80,8 @@ namespace Airwars
                     Misiles.RemoveAt(i);
                 }
             }
-            
-            Console.WriteLine("Misiles: " + Misiles.Count);
+
+
 
 
             GameBox.Invalidate();
@@ -101,7 +103,7 @@ namespace Airwars
 
             // Aquí puedes dibujar otros elementos como aviones
         }
-        
+
 
 
         private void GameBox_MouseDown(object sender, MouseEventArgs e)
@@ -153,7 +155,7 @@ namespace Airwars
             Point misilPosition = new Point(ArmaJugador.Position.X + ArmaJugador.Sprite.Width / 2 - Misil.DefaultWidth / 2, ArmaJugador.Position.Y - Misil.DefaultHeight);
             Misil nuevoMisil = new Misil(misilPosition, speed);
             Misiles.Add(nuevoMisil);
-            Debug.WriteLine("Misil disparado con velocidad: " + speed);
+            airport.CreateAirplane();
         }
 
         private void GameCanvas_Resize(object sender, EventArgs e)
@@ -169,7 +171,7 @@ namespace Airwars
 
         private void GameWindow_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -198,6 +200,11 @@ namespace Airwars
         }
 
         private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GameBox_Click(object sender, EventArgs e)
         {
 
         }

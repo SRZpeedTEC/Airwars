@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Airwars.Utiles;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -11,64 +12,87 @@ namespace Airwars.Models
 {
     public class Map
     {
-        Node[] Grafo = new Node[5];
-        int[] IDs = { 0, 1, 2, 3, 4 };
+        public List<Node> Graph { get; set; }
+        public int AirportCount = 10;
+        public int AircraftCarrierCount = 10;
+        private const int MapWidth = 811;
+        private const int MapHeight = 1400;
+
+        public Genericos genericos = new Genericos();      
         Random rand = new Random();
+
+        public Map()
+        {
+            Graph = new List<Node>();
+        }
 
         public void GenerateMap()
         {
+            AddNodes();
+            GenerateRoutes();        
+        }
 
-            int x = rand.Next(1, 5);
-            int y = rand.Next(1, 5);
-
-            for (int i = 0; i < Grafo.Length; i++)
+        public void AddNodes() // AGREGAR VALIDACIONES MAR O TIERRA
+        {
+            for (int i = 0; i < AirportCount;)
             {
-                Grafo[i] = new Node(i, new Point(x, y));
-                Debug.WriteLine("Nodo: " + Grafo[i].ID + " Posicion: " + Grafo[i].Position.X + "," + Grafo[i].Position.Y);
+                int x = rand.Next(50, MapWidth - 50);
+                int y = rand.Next(100, MapHeight - 50);
+                if (genericos.GetLandType(new Point(x, y)) is Genericos.LandType.Land)
+                {
+                    Airport newAirport = new Airport(new Point(x, y));
+                    Graph.Add(newAirport);
+                    i++;
+                }                
             }
 
-            
-            foreach (Node node in Grafo)
+            for (int i = 0; i < AircraftCarrierCount;)
             {
-                int routes = rand.Next(1, 3);
-                List<int> possibleRoutes = IDs.Where(id => id != node.ID).ToList(); // Rutas posibles
-
-                for (int i = 0; i < routes; i++)
+                int x = rand.Next(50, MapWidth - 50);
+                int y = rand.Next(100, MapHeight - 50);
+                if (genericos.GetLandType(new Point(x, y)) is Genericos.LandType.Ocean) 
                 {
-                    if (possibleRoutes.Count == 0) break;
-
-                    int RouteRandom = rand.Next(0, possibleRoutes.Count);
-                    int routeID = possibleRoutes[RouteRandom]; 
-
-                    
-                    Node destinationNode = Grafo.FirstOrDefault(n => n.ID == routeID);
-                    if (destinationNode != null)
-                    {
-                        int peso = rand.Next(1, 25);
-                        node.AddRoute(destinationNode, peso);
-                    }
-
-                    possibleRoutes.Remove(routeID); 
-                }
+                    AircraftCarrier newAircraftCarrier = new AircraftCarrier(new Point(x, y));
+                    Graph.Add(newAircraftCarrier);
+                    i++;
+                }                  
             }
+        }
 
-            // Mostrar las rutas generadas
-            foreach (Node node in Grafo)
+        public void GenerateRoutes()
+        {
+
+            foreach (Node node in Graph)
             {
-                foreach (Route route in node.Routes)
+                List<Node> possibleDestinations = Graph.Where(n => n != node).ToList();
+                int numberConnections = rand.Next(2, 4);
+
+                for (int i = 0; i < numberConnections; i++)
                 {
-                    Debug.WriteLine($"El nodo {node.ID} tiene ruta hacia {route.destination.ID}");
+                    Node destination = possibleDestinations[rand.Next(0, possibleDestinations.Count)];
+                    double weight = genericos.CalculateWeigthRoutes(node, destination);
+                    AddRoutes(node, destination, weight);
+                    possibleDestinations.Remove(destination);
                 }
             }
         }
+
+        public void AddRoutes(Node Origin, Node Destination, double Weight)
+        {
+            Origin.AddRoute(Destination, Weight);
+        }  
+        
+        public void DrawMap(Graphics g)
+        {
+            foreach (Node node in Graph)
+            {
+                Brush brush = node is Airport ? Brushes.Green : Brushes.Blue;
+                g.FillEllipse(brush, node.Position.X, node.Position.Y, 10, 10);             
+            }
+        }
+
+   
     }
-
-
-
-
-
-
-
 }                
    
 

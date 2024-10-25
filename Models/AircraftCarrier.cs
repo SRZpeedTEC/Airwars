@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace Airwars.Models
 {
-    internal class AircraftCarrier
+    public class AircraftCarrier : Node
     {
+        public int HangarCapacity = 20;
+        public AircraftCarrier(Point position) : base(position)
+        {
+            this.Position = position;
+        }
+
+        public override void RechargeFuel() // NO IMPLEMENTADO
+        {
+            foreach (Airplane airplane in Airplanes)
+            {
+                Console.WriteLine("Recharging fuel for airplane");
+            }
+        }
+
     }
 }

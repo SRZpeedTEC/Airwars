@@ -9,9 +9,9 @@ namespace Airwars.Models
     public class Route
     {
         public Node destination { get; set; }
-        public int weight { get; set; }
+        public double weight { get; set; }
 
-        public Route(Node node, int weight)
+        public Route(Node node, double weight)
         {
             this.destination = node;
             this.weight = weight;

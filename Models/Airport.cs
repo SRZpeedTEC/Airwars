@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +11,12 @@ namespace Airwars.Models
     public class Airport : Node
     {
         public int HangarCapacity = 20;
-        public Airport(int id, Point position) : base(id, position)
+        public Airport(Point position) : base(position)
         {
-            this.ID = id;
             this.Position = position;           
         }
 
-        public void RechargeFuel()
+        public override void RechargeFuel()    // NO IMPLEMENTADO
         {
             foreach (Airplane airplane in Airplanes)
             {
@@ -27,7 +27,7 @@ namespace Airwars.Models
         public void CreateAirplane()
         {
             Airplane newAirplane = new Airplane();
-            //Airplanes.Enqueue();
+            Airplanes.Enqueue(newAirplane);        
         }
 
     }
