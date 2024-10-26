@@ -13,31 +13,37 @@ namespace Airwars.Models
     public class Map
     {
         public List<Node> Graph { get; set; }
-        public int AirportCount = 10;
-        public int AircraftCarrierCount = 10;
-        private const int MapWidth = 811;
-        private const int MapHeight = 1400;
+        public Bitmap ImageMap { get; set; }
+        public int AirportCount = 7;
+        public int AircraftCarrierCount = 4;
+        private const int MapWidth = 1400;
+        private const int MapHeight = 811;
 
-        public Genericos genericos = new Genericos();      
+        public Genericos genericos;      
         Random rand = new Random();
 
-        public Map()
+        public Map(Bitmap ImageMap)
         {
             Graph = new List<Node>();
+            this.ImageMap = ImageMap;
+            this.genericos = new Genericos(ImageMap);
         }
 
         public void GenerateMap()
         {
+            Debug.WriteLine("Generating map");
             AddNodes();
-            GenerateRoutes();        
+            Debug.WriteLine("Nodes added");
+            GenerateRoutes();    
+            Debug.WriteLine("Routes added");
         }
 
-        public void AddNodes() // AGREGAR VALIDACIONES MAR O TIERRA
+        public void AddNodes() 
         {
             for (int i = 0; i < AirportCount;)
             {
                 int x = rand.Next(50, MapWidth - 50);
-                int y = rand.Next(100, MapHeight - 50);
+                int y = rand.Next(200, MapHeight - 50);
                 if (genericos.GetLandType(new Point(x, y)) is Genericos.LandType.Land)
                 {
                     Airport newAirport = new Airport(new Point(x, y));
@@ -62,19 +68,28 @@ namespace Airwars.Models
         public void GenerateRoutes()
         {
 
+            List<Node> unconnectedNodes = Graph.ToList();
+
             foreach (Node node in Graph)
             {
                 List<Node> possibleDestinations = Graph.Where(n => n != node).ToList();
-                int numberConnections = rand.Next(2, 4);
+                int numberConnections = rand.Next(1, 2);
 
                 for (int i = 0; i < numberConnections; i++)
                 {
                     Node destination = possibleDestinations[rand.Next(0, possibleDestinations.Count)];
-                    double weight = genericos.CalculateWeigthRoutes(node, destination);
-                    AddRoutes(node, destination, weight);
-                    possibleDestinations.Remove(destination);
+                    if (!node.Routes.Any(r => r.destination == destination))
+                    {
+                        double weight = genericos.CalculateWeigthRoutes(node, destination);
+                        AddRoutes(node, destination, weight);
+                        AddRoutes(destination, node, weight);
+                        possibleDestinations.Remove(destination);
+                    }
                 }
             }
+            
+                
+
         }
 
         public void AddRoutes(Node Origin, Node Destination, double Weight)
@@ -91,7 +106,20 @@ namespace Airwars.Models
             }
         }
 
-   
+        public void DrawRoutes(Graphics g)
+        {
+            foreach (var nodo in Graph)
+            {
+                foreach (var arista in nodo.Routes)
+                {
+                    // Dibujar línea entre nodos
+                    g.DrawLine(Pens.Black, nodo.Position, arista.destination.Position);
+                    
+                }
+            }
+        }
+
+
     }
 }                
    

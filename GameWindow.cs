@@ -22,25 +22,37 @@ namespace Airwars
         private List<Misil> Misiles;
         private System.Windows.Forms.Timer GameTimer;
         private Genericos genericos;
-        public Airport airport = new Airport(1, new Point(0, 0));
+        private Map Mapa;
+        public static GameWindow Instance = null;
+        public Bitmap ImageMap;
 
         private DateTime mouseDownTime;
+
+        public static GameWindow GetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = new GameWindow();
+            }
+            return Instance;
+        }
 
         public GameWindow()
         {
             this.DoubleBuffered = true;
-            InitializeComponent();
+            InitializeComponent();          
             InitializeGame();
+            
         }
 
         private void InitializeGame()
         {
             // Inicializa la lista de misiles
             Misiles = new List<Misil>();
-
-            Map Mapa = new Map();
+            ImageMap = new Bitmap(GameBox.Image);
+            Mapa = new Map(ImageMap);
             Mapa.GenerateMap();
-
+           
             // Inicializa el arma en la posición inferior central del formulario
             Point initialPosition = new Point((GameBox.Width / 2), GameBox.Height - 80);
             int armaSpeed = 5;
@@ -87,7 +99,7 @@ namespace Airwars
             GameBox.Invalidate();
 
         }
-
+      
 
         private void GameBox_Paint(object sender, PaintEventArgs e)
         {
@@ -100,6 +112,9 @@ namespace Airwars
             {
                 misil.Draw(e.Graphics);
             }
+
+            Mapa.DrawMap(e.Graphics);
+            Mapa.DrawRoutes(e.Graphics);
 
             // Aquí puedes dibujar otros elementos como aviones
         }
@@ -154,8 +169,7 @@ namespace Airwars
             // Crea un nuevo misil en la posición del arma
             Point misilPosition = new Point(ArmaJugador.Position.X + ArmaJugador.Sprite.Width / 2 - Misil.DefaultWidth / 2, ArmaJugador.Position.Y - Misil.DefaultHeight);
             Misil nuevoMisil = new Misil(misilPosition, speed);
-            Misiles.Add(nuevoMisil);
-            airport.CreateAirplane();
+            Misiles.Add(nuevoMisil);           
         }
 
         private void GameCanvas_Resize(object sender, EventArgs e)

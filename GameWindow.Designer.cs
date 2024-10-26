@@ -39,8 +39,9 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.BackColor = Color.FromArgb(255, 192, 128);
+            label1.BackColor = Color.FromArgb(0, 0, 64);
             label1.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = SystemColors.ControlLightLight;
             label1.Location = new Point(121, 39);
             label1.Name = "label1";
             label1.Size = new Size(285, 25);
@@ -51,8 +52,9 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.BackColor = Color.FromArgb(255, 192, 128);
+            label2.BackColor = Color.FromArgb(0, 0, 64);
             label2.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.ForeColor = SystemColors.ControlLightLight;
             label2.Location = new Point(1219, 39);
             label2.Name = "label2";
             label2.Size = new Size(116, 25);
@@ -63,8 +65,9 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.BackColor = Color.FromArgb(255, 192, 128);
+            label3.BackColor = Color.FromArgb(0, 0, 64);
             label3.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = SystemColors.ControlLightLight;
             label3.Location = new Point(695, 39);
             label3.Name = "label3";
             label3.Size = new Size(181, 25);
@@ -87,7 +90,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(255, 192, 128);
+            BackColor = Color.FromArgb(0, 0, 64);
             ClientSize = new Size(1595, 907);
             Controls.Add(GameBox);
             Controls.Add(label3);

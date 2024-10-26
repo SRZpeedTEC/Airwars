@@ -10,13 +10,14 @@ namespace Airwars.Utiles
 {
     public class Genericos
     {
-        static GameWindow gameWindow = (GameWindow)GameWindow.ActiveForm;
+        
+        public Bitmap? Mapa { get; set; }
+        
 
-        public Bitmap mapa = gameWindow.GameBox.Image as Bitmap;
-
-
-        public Genericos()
+        
+        public Genericos(Bitmap? ImageMap)
         {
+            this.Mapa = ImageMap;
         }
         private void ResizeSprite(Image image, int width, int height)
         {
@@ -74,9 +75,11 @@ namespace Airwars.Utiles
             return Math.Sqrt(dx * dx + dy * dy);
         }
 
+
         public LandType GetLandType(Point position) 
         {
-            Color colorPixel = mapa.GetPixel(position.X, position.Y);
+                                       
+            Color colorPixel = Mapa.GetPixel(position.X, position.Y);
 
             if (IsWater(colorPixel))
             {
@@ -91,7 +94,7 @@ namespace Airwars.Utiles
 
         public bool IsWater(Color color)
         {
-            return color.R < 25 && color.G < 79 && color.G > 59 && color.B < 143 && color.B > 116;
+            return color.R < 25 && color.G < 90 && color.G > 70 && color.B < 150 && color.B > 120;
         }
 
         public bool IsInteroceanicRoute(Point start, Point end) 
@@ -100,7 +103,7 @@ namespace Airwars.Utiles
 
             foreach (Point punto in puntosEnLinea)
             {
-                if (GetLandType(punto) == LandType.Land)
+                if (GetLandType(punto) == LandType.Ocean)
                 {
                     return true;
                 }
