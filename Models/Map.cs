@@ -19,7 +19,7 @@ namespace Airwars.Models
         private const int MapWidth = 1400;
         private const int MapHeight = 811;
 
-        public Genericos genericos;      
+        public Genericos genericos;
         Random rand = new Random();
 
         public Map(Bitmap ImageMap)
@@ -34,11 +34,13 @@ namespace Airwars.Models
             Debug.WriteLine("Generating map");
             AddNodes();
             Debug.WriteLine("Nodes added");
-            GenerateRoutes();    
+            GenerateRoutes();
             Debug.WriteLine("Routes added");
+            ShortestPathTest();
+            
         }
 
-        public void AddNodes() 
+        public void AddNodes()
         {
             for (int i = 0; i < AirportCount;)
             {
@@ -49,26 +51,24 @@ namespace Airwars.Models
                     Airport newAirport = new Airport(new Point(x, y));
                     Graph.Add(newAirport);
                     i++;
-                }                
+                }
             }
 
             for (int i = 0; i < AircraftCarrierCount;)
             {
                 int x = rand.Next(50, MapWidth - 50);
                 int y = rand.Next(100, MapHeight - 50);
-                if (genericos.GetLandType(new Point(x, y)) is Genericos.LandType.Ocean) 
+                if (genericos.GetLandType(new Point(x, y)) is Genericos.LandType.Ocean)
                 {
                     AircraftCarrier newAircraftCarrier = new AircraftCarrier(new Point(x, y));
                     Graph.Add(newAircraftCarrier);
                     i++;
-                }                  
+                }
             }
-        }
-        public void GenerateMap()
-        {
-            AddNodes();
-            GenerateRoutes();
-            PruebaShortestPath();
+            foreach (Node node in Graph)
+            {
+                node.AllNodes = Graph;
+            }
         }
 
         public void GenerateRoutes()
@@ -79,7 +79,7 @@ namespace Airwars.Models
             foreach (Node node in Graph)
             {
                 List<Node> possibleDestinations = Graph.Where(n => n != node).ToList();
-                int numberConnections = rand.Next(1, 2);
+                int numberConnections = 1;
 
                 for (int i = 0; i < numberConnections; i++)
                 {
@@ -93,22 +93,22 @@ namespace Airwars.Models
                     }
                 }
             }
-            
-                
+
+
 
         }
 
         public void AddRoutes(Node Origin, Node Destination, double Weight)
         {
             Origin.AddRoute(Destination, Weight);
-        }  
-        
+        }
+
         public void DrawMap(Graphics g)
         {
             foreach (Node node in Graph)
             {
                 Brush brush = node is Airport ? Brushes.Green : Brushes.Blue;
-                g.FillEllipse(brush, node.Position.X, node.Position.Y, 10, 10);             
+                g.FillEllipse(brush, node.Position.X, node.Position.Y, 10, 10);
             }
         }
 
@@ -120,49 +120,16 @@ namespace Airwars.Models
                 {
                     // Dibujar línea entre nodos
                     g.DrawLine(Pens.Black, nodo.Position, arista.destination.Position);
-                    
+
                 }
             }
         }
-                    AircraftCarrier newAircraftCarrier = new AircraftCarrier(new Point(x, y));
-                    Graph.Add(newAircraftCarrier);
-                    i++;
-                }                  
-            }
 
-            foreach (Node node in Graph )
-            {
-                node.AllNodes = Graph;
-            }
-        }
-
-
-
-
-        public void AddRoutes(Node Origin, Node Destination, double Weight)
-        {
-            Origin.AddRoute(Destination, Weight);
-        }  
-        
-        public void DrawMap(Graphics g)
-        {
-            foreach (Node node in Graph)
-            {
-                Brush brush = node is Airport ? Brushes.Green : Brushes.Blue;
-                g.FillEllipse(brush, node.Position.X, node.Position.Y, 10, 10);             
-            }
-        }
-
-        public void PruebaShortestPath()
+        public void ShortestPathTest()
         {
             Airplane AvionDePrueba = new Airplane(Graph[0]);
             AvionDePrueba.ChooseRandomDestinationAndCalculateRoute();
-
         }
 
-
-   
     }
-}                
-   
-
+}

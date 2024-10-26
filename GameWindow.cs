@@ -40,9 +40,9 @@ namespace Airwars
         public GameWindow()
         {
             this.DoubleBuffered = true;
-            InitializeComponent();          
+            InitializeComponent();
             InitializeGame();
-            
+
         }
 
         private void InitializeGame()
@@ -52,7 +52,7 @@ namespace Airwars
             ImageMap = new Bitmap(GameBox.Image);
             Mapa = new Map(ImageMap);
             Mapa.GenerateMap();
-           
+
             // Inicializa el arma en la posición inferior central del formulario
             Point initialPosition = new Point((GameBox.Width / 2), GameBox.Height - 80);
             int armaSpeed = 5;
@@ -99,7 +99,7 @@ namespace Airwars
             GameBox.Invalidate();
 
         }
-      
+
 
         private void GameBox_Paint(object sender, PaintEventArgs e)
         {
@@ -145,7 +145,16 @@ namespace Airwars
                     int missileSpeed = CalculateMissileSpeed(holdSeconds);
                     FireMissile(missileSpeed);
                 }
-            }
+            } 
+            
+            // Obtener las coordenadas del mouse en el PictureBox al hacer MouseUp
+            Point mousePosition = e.Location;
+
+            // Imprimir las coordenadas en consola o hacer algo con ellas
+            Debug.WriteLine($"Mouse Up en coordenadas: X = {mousePosition.X}, Y = {mousePosition.Y}");
+
+
+
         }
 
         private int CalculateMissileSpeed(double holdSeconds)
@@ -169,7 +178,7 @@ namespace Airwars
             // Crea un nuevo misil en la posición del arma
             Point misilPosition = new Point(ArmaJugador.Position.X + ArmaJugador.Sprite.Width / 2 - Misil.DefaultWidth / 2, ArmaJugador.Position.Y - Misil.DefaultHeight);
             Misil nuevoMisil = new Misil(misilPosition, speed);
-            Misiles.Add(nuevoMisil);           
+            Misiles.Add(nuevoMisil);
         }
 
         private void GameCanvas_Resize(object sender, EventArgs e)

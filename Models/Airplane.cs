@@ -14,7 +14,7 @@ namespace Airwars.Models
         public Guid Guid { get; set; }
         public int fuel = 100;
         public int CoolDownFly= 0;
-        private Genericos genericos = new Genericos();
+        private Genericos genericos = new Genericos(null);
 
 
         public bool inRoute = false; //Determina si el avión ya tiene una nodo destino 
