@@ -11,9 +11,11 @@ namespace Airwars.Models
 
         public List<Route> Routes = new List<Route>();
 
+        public List<Node> AllNodes { get; set; }
+
         public Point Position { get; set; }
 
-        public int Fuel = 100;
+        public int Fuel  { get; set; }
 
         public Queue<Airplane> Airplanes = new Queue<Airplane>();
 
@@ -22,7 +24,7 @@ namespace Airwars.Models
         public Node(Point position)
         {                     
             this.Position = position;
-            this.Routes = new List<Route>();
+            this.Fuel = 100;
         }
 
         public virtual void RechargeFuel() 

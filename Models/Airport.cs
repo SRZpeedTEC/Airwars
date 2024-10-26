@@ -26,8 +26,8 @@ namespace Airwars.Models
 
         public void CreateAirplane()
         {
-            Airplane newAirplane = new Airplane();
-            Airplanes.Enqueue(newAirplane);        
+            //Airplane newAirplane = new Airplane(); lo comenté para hacer una prueba xd en todo caso solo hay que meterle al constructor que el airplane tiene como nodo, este nodo del aeropuerto
+            //Airplanes.Enqueue(newAirplane);        
         }
 
     }

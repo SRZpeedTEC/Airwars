@@ -64,6 +64,12 @@ namespace Airwars.Models
                 }                  
             }
         }
+        public void GenerateMap()
+        {
+            AddNodes();
+            GenerateRoutes();
+            PruebaShortestPath();
+        }
 
         public void GenerateRoutes()
         {
@@ -118,8 +124,44 @@ namespace Airwars.Models
                 }
             }
         }
+                    AircraftCarrier newAircraftCarrier = new AircraftCarrier(new Point(x, y));
+                    Graph.Add(newAircraftCarrier);
+                    i++;
+                }                  
+            }
+
+            foreach (Node node in Graph )
+            {
+                node.AllNodes = Graph;
+            }
+        }
 
 
+
+
+        public void AddRoutes(Node Origin, Node Destination, double Weight)
+        {
+            Origin.AddRoute(Destination, Weight);
+        }  
+        
+        public void DrawMap(Graphics g)
+        {
+            foreach (Node node in Graph)
+            {
+                Brush brush = node is Airport ? Brushes.Green : Brushes.Blue;
+                g.FillEllipse(brush, node.Position.X, node.Position.Y, 10, 10);             
+            }
+        }
+
+        public void PruebaShortestPath()
+        {
+            Airplane AvionDePrueba = new Airplane(Graph[0]);
+            AvionDePrueba.ChooseRandomDestinationAndCalculateRoute();
+
+        }
+
+
+   
     }
 }                
    
