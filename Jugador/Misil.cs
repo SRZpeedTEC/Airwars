@@ -12,6 +12,7 @@ namespace Airwars.Jugador
         public static int DefaultHeight { get; } = 50;
 
         public Point Position { get; set; }
+        
         public int Speed { get; set; }
         public Image Sprite { get; set; }
 
@@ -39,5 +40,18 @@ namespace Airwars.Jugador
         {
             return Position.Y + Sprite.Height < 0;
         }
+
+        public Rectangle Hitbox
+        {
+            get
+            {
+                return new Rectangle(Position.X, Position.Y, Sprite.Width, Sprite.Height);
+            }
+        }
+        public bool CheckCollision(Rectangle other)
+        {
+            return this.Hitbox.IntersectsWith(other);
+        }
+
     }
 }

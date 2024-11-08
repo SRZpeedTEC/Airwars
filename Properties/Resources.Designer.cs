@@ -83,6 +83,16 @@ namespace Airwars.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Avion {
+            get {
+                object obj = ResourceManager.GetObject("Avion", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap GameMap {
             get {
                 object obj = ResourceManager.GetObject("GameMap", resourceCulture);

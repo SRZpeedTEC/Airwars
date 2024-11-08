@@ -129,6 +129,10 @@ namespace Airwars.Models
         {
             Airplane AvionDePrueba = new Airplane(Graph[0]);
             AvionDePrueba.ChooseRandomDestinationAndCalculateRoute();
+            while (AvionDePrueba.ShortestPath.Count > 0) 
+            {
+                AvionDePrueba.MoveAlongPath();
+            }
         }
 
     }

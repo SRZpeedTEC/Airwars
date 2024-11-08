@@ -21,6 +21,7 @@ namespace Airwars.Models
         public List<Node> ShortestPath { get; private set; } = new List<Node>();
 
         public Node CurrentNode { get; set; }
+        public Point Position { get; set; }
 
         public Pilot pilot { get; set; }
         public Copilot copilot { get; set; }
@@ -34,6 +35,7 @@ namespace Airwars.Models
             manteinance = new Manteinance(genericos.GenerateID(3));
             spaceAwarness = new SpaceAwarness(genericos.GenerateID(3));
             CurrentNode = currentNode;
+            Position = currentNode.Position;
         }
 
 
@@ -137,6 +139,41 @@ namespace Airwars.Models
                 ShortestPath.Insert(0, at);
             }
         }
+
+
+        public void MoveAlongPath()
+        {
+            if (ShortestPath.Count > 0)
+            {
+                Node nextNode = ShortestPath[1]; // El siguiente nodo a alcanzar
+                List<Point> puntosRuta = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
+
+                foreach (var punto in puntosRuta)
+                {
+                    Position = punto;
+                    // Agregar logica de refescamiento del mapa
+                    
+
+                    System.Threading.Thread.Sleep(50); // ajustar el tiempo 
+                    Debug.WriteLine($"Avión en camino al nodo en posicion {nextNode.Position} actualmente en {Position} .");
+                }
+
+                
+                CurrentNode = nextNode;
+                ShortestPath.RemoveAt(0);
+
+                if (ShortestPath.Count == 0) // El avión llegó a su destino
+                {
+                    inRoute = false;
+                    Debug.WriteLine("El avión ha llegado a su destino.");
+                }
+            }
+            else
+            {
+                Debug.WriteLine("No hay ruta calculada.");
+            }
+        }
+
 
     }
 }
