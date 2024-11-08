@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Airwars.AlgoritmosDeOrdenamiento
 {
-    internal class SelectionSort
+    public class SelectionSort
     {
     }
 }

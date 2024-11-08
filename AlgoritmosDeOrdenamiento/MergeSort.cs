@@ -55,6 +55,14 @@ namespace Airwars.AlgoritmosDeOrdenamiento
                 result.Add(left[i]);
                 i++;
             }
+
+            while (j < right.Count)
+            {
+                result.Add(right[j]);
+                j++;
+            }
+
+            return result;
             
         }
     }
