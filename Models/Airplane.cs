@@ -27,6 +27,7 @@ namespace Airwars.Models
         public Copilot copilot { get; set; }
         public Manteinance manteinance { get; set; }
         public SpaceAwarness spaceAwarness { get; set; }
+        public List<AirPlaneModul> Tripulacion { get; set; }
         public Airplane(Node currentNode)
         {
             Guid = Guid.NewGuid();
@@ -34,6 +35,8 @@ namespace Airwars.Models
             copilot = new Copilot(genericos.GenerateID(3));
             manteinance = new Manteinance(genericos.GenerateID(3));
             spaceAwarness = new SpaceAwarness(genericos.GenerateID(3));
+            Tripulacion = new List<AirPlaneModul> { pilot, copilot, manteinance, spaceAwarness };
+            
             CurrentNode = currentNode;
             Position = currentNode.Position;
         }
