@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Airwars.Utiles;
 using System.Diagnostics;
+using System.Security.Policy;
+using System.Xml.Linq;
 
 namespace Airwars.Models
 {
@@ -20,6 +22,8 @@ namespace Airwars.Models
         public bool inRoute = false; //Determina si el avión ya tiene una nodo destino 
         public List<Node> ShortestPath { get; private set; } = new List<Node>();
 
+        public List<Point> RutaActual { get; private set; }
+
         public Node CurrentNode { get; set; }
         public Point Position { get; set; }
 
@@ -27,6 +31,9 @@ namespace Airwars.Models
         public Copilot copilot { get; set; }
         public Manteinance manteinance { get; set; }
         public SpaceAwarness spaceAwarness { get; set; }
+
+        public List<AirPlaneModul> Tripulacion { get; set; }
+
         public Airplane(Node currentNode)
         {
             Guid = Guid.NewGuid();
@@ -34,6 +41,7 @@ namespace Airwars.Models
             copilot = new Copilot(genericos.GenerateID(3));
             manteinance = new Manteinance(genericos.GenerateID(3));
             spaceAwarness = new SpaceAwarness(genericos.GenerateID(3));
+            Tripulacion = new List<AirPlaneModul> { pilot, copilot, manteinance, spaceAwarness };
             CurrentNode = currentNode;
             Position = currentNode.Position;
         }
@@ -47,6 +55,10 @@ namespace Airwars.Models
             if (DestinationNode != CurrentNode)
             {
                 CalculateShortestPathTo(DestinationNode);
+                Node nextNode = ShortestPath[1]; // El siguiente nodo a alcanzar
+                RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
+                inRoute = true;
+
             }
             else
             {
@@ -140,39 +152,73 @@ namespace Airwars.Models
             }
         }
 
+       
 
         public void MoveAlongPath()
         {
-            if (ShortestPath.Count > 0)
+
+            if (inRoute)
             {
-                Node nextNode = ShortestPath[1]; // El siguiente nodo a alcanzar
-                List<Point> puntosRuta = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
 
-                foreach (var punto in puntosRuta)
+
+
+                if (ShortestPath.Count > 0)
                 {
-                    Position = punto;
-                    // Agregar logica de refescamiento del mapa
-                    
 
-                    System.Threading.Thread.Sleep(50); // ajustar el tiempo 
-                    Debug.WriteLine($"Avión en camino al nodo en posicion {nextNode.Position} actualmente en {Position} .");
-                }
 
-                
-                CurrentNode = nextNode;
-                ShortestPath.RemoveAt(0);
 
-                if (ShortestPath.Count == 0) // El avión llegó a su destino
-                {
-                    inRoute = false;
-                    Debug.WriteLine("El avión ha llegado a su destino.");
+                    if (ShortestPath.Count == 1) // El avión llegó a su destino
+                    {
+                        inRoute = false;
+                        CurrentNode.HandleAirplane(this);
+                        Debug.WriteLine("El avión ha llegado a su destino.");
+                        return;
+                    }
+
+                    Node nextNode = ShortestPath[1]; // El siguiente nodo a alcanzar
+
+
+                    if (Position == nextNode.Position)
+                    {
+                        ShortestPath.RemoveAt(1);
+                        RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
+                        return;
+                    }
+
+
+
+                    RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
+
+                    Position = RutaActual[1];
+                    RutaActual.RemoveAt(0);
+
+
+                   
+
+
+
+                    CurrentNode = nextNode;
+
+
+
+
+
                 }
             }
             else
             {
-                Debug.WriteLine("No hay ruta calculada.");
+                Debug.WriteLine($"No hay ruta calculada para el avion de ID: {Guid} .");
             }
+
         }
+
+        public void Draw(Graphics g)
+        {
+            Brush brush = Brushes.White; 
+            g.FillEllipse(brush, Position.X, Position.Y, 10, 10); 
+        }
+
+
 
 
     }

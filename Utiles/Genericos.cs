@@ -116,7 +116,7 @@ namespace Airwars.Utiles
 
         public List<Point> BresenhamLine(int x0, int y0, int x1, int y1)
         {
-            List<Point> puntos = new List<Point>();
+            HashSet<Point> uniquePoints = new HashSet<Point>();
 
             int dx = Math.Abs(x1 - x0);
             int dy = Math.Abs(y1 - y0);
@@ -126,7 +126,7 @@ namespace Airwars.Utiles
 
             while (true)
             {
-                puntos.Add(new Point(x0, y0));
+                uniquePoints.Add(new Point(x0, y0));
 
                 if (x0 == x1 && y0 == y1)
                     break;
@@ -146,8 +146,10 @@ namespace Airwars.Utiles
                 }
             }
 
-            return puntos;
+            // Convertir el HashSet a una lista y devolver
+            return uniquePoints.ToList();
         }
+
 
 
     }

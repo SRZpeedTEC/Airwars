@@ -19,14 +19,24 @@ namespace Airwars.Models
         private const int MapWidth = 1400;
         private const int MapHeight = 811;
 
+        public List<Airplane> AirplanesInMap { get; set; }
+        public List<Airport> AirportsInMap { get; set; }
+
         public Genericos genericos;
         Random rand = new Random();
+
+        
+
+        
 
         public Map(Bitmap ImageMap)
         {
             Graph = new List<Node>();
             this.ImageMap = ImageMap;
             this.genericos = new Genericos(ImageMap);
+            AirplanesInMap = new List<Airplane>();
+            AirportsInMap = new List<Airport>();
+            
         }
 
         public void GenerateMap()
@@ -36,8 +46,10 @@ namespace Airwars.Models
             Debug.WriteLine("Nodes added");
             GenerateRoutes();
             Debug.WriteLine("Routes added");
-            ShortestPathTest();
-            
+            StartAirplaneGenerators();
+
+
+
         }
 
         public void AddNodes()
@@ -50,6 +62,7 @@ namespace Airwars.Models
                 {
                     Airport newAirport = new Airport(new Point(x, y));
                     Graph.Add(newAirport);
+                    AirportsInMap.Add(newAirport);
                     i++;
                 }
             }
@@ -125,15 +138,37 @@ namespace Airwars.Models
             }
         }
 
-        public void ShortestPathTest()
+        public void StartAirplaneGenerators()
         {
-            Airplane AvionDePrueba = new Airplane(Graph[0]);
-            AvionDePrueba.ChooseRandomDestinationAndCalculateRoute();
-            while (AvionDePrueba.ShortestPath.Count > 0) 
+            // Inicia un nuevo hilo que ejecutará la lógica de generación de aviones
+            Task.Run(async () =>
             {
-                AvionDePrueba.MoveAlongPath();
-            }
+                while (true) // Bucle infinito para generar aviones continuamente
+                {
+                    
+                    int delay = rand.Next(1000, 5000);
+                    await Task.Delay(delay);
+
+                    // Elegir un aeropuerto aleatorio de la lista de aeropuertos
+                    Airport randomAirport = AirportsInMap[rand.Next(AirportsInMap.Count)];
+
+
+                    if (randomAirport.HangarCapacity > 0)
+
+                    {
+
+                        Airplane newAirplane = randomAirport.CreateAirplane();
+                        randomAirport.HandleAirplane(newAirplane);
+                        AirplanesInMap.Add(newAirplane);
+                        
+                    }
+                    
+                }
+            });
         }
+
+
+
 
     }
 }

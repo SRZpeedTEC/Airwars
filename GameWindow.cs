@@ -76,6 +76,7 @@ namespace Airwars
 
             this.Controls.Add(GameBox);
 
+            
 
         }
 
@@ -93,7 +94,11 @@ namespace Airwars
                 }
             }
 
-
+            List<Airplane> Airplanes = Mapa.AirplanesInMap;
+            foreach (Airplane avion in Airplanes)
+            {
+                avion.MoveAlongPath();
+            }
 
 
             GameBox.Invalidate();
@@ -117,6 +122,14 @@ namespace Airwars
             Mapa.DrawRoutes(e.Graphics);
 
             // Aquí puedes dibujar otros elementos como aviones
+            foreach (Airplane avion in Mapa.AirplanesInMap)
+            {
+                avion.Draw(e.Graphics);
+            }
+
+            
+
+
         }
 
 
@@ -153,6 +166,7 @@ namespace Airwars
             // Imprimir las coordenadas en consola o hacer algo con ellas
             Debug.WriteLine($"Mouse Up en coordenadas: X = {mousePosition.X}, Y = {mousePosition.Y}");
 
+            
 
 
         }

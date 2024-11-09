@@ -8,15 +8,21 @@ using Airwars.Utiles;
 
 namespace Airwars.Models
 {
+    using System.Threading.Tasks;
+
     public class Airport : Node
     {
         public int HangarCapacity = 20;
+        private bool generatingAirplanes = false; // Controla si se están generando aviones
+        
+
         public Airport(Point position) : base(position)
         {
-            this.Position = position;           
+            this.Position = position;
+            
         }
 
-        public override void RechargeFuel()    // NO IMPLEMENTADO
+        public override void RechargeFuel()
         {
             foreach (Airplane airplane in Airplanes)
             {
@@ -24,11 +30,15 @@ namespace Airwars.Models
             }
         }
 
-        public void CreateAirplane()
+        public Airplane CreateAirplane()
         {
-            Airplane newAirplane = new Airplane(this); 
-            Airplanes.Enqueue(newAirplane);        
+            
+            Airplane newAirplane = new Airplane(this);
+            HangarCapacity--;
+            return newAirplane;
+
         }
 
+        
     }
 }
