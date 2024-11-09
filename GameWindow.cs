@@ -95,8 +95,8 @@ namespace Airwars
                            
             }
 
-            List<Airplane> Airplanes = Mapa.AirplanesInMap;
-            foreach (Airplane avion in Airplanes)
+            List<Airplane> airplanesCopy = new List<Airplane>(Mapa.AirplanesInMap);
+            foreach (Airplane avion in airplanesCopy)
             {
                 avion.MoveAlongPath();
             }
