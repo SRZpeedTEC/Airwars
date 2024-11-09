@@ -92,6 +92,7 @@ namespace Airwars
                 {
                     Misiles.RemoveAt(i);
                 }
+                           
             }
 
             List<Airplane> Airplanes = Mapa.AirplanesInMap;
