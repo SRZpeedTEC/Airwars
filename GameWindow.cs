@@ -60,7 +60,7 @@ namespace Airwars
 
             // Configura el temporizador del juego
             GameTimer = new System.Windows.Forms.Timer();
-            GameTimer.Interval = 20; // Actualiza cada 20 ms 
+            GameTimer.Interval = 30; // Actualiza cada 30 ms 
             GameTimer.Tick += GameLoop;
             GameTimer.Start();
 
@@ -132,7 +132,7 @@ namespace Airwars
             Mapa.DrawRoutes(e.Graphics);
 
             // Aquí puedes dibujar otros elementos como aviones
-            foreach (Airplane avion in Mapa.AirplanesInMap)
+            foreach (Airplane avion in Mapa.AirplanesInMap) // Colocar un falg de inRoute si quiero que despaarzecan cuando estan en un aeropuerto
             {
                 avion.Draw(e.Graphics);
             }

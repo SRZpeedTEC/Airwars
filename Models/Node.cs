@@ -15,6 +15,8 @@ namespace Airwars.Models
         public int Fuel { get; set; }
         public Queue<Airplane> Airplanes = new Queue<Airplane>();
 
+        private static readonly Random _random = new Random();
+
         public Node(Point position)
         {
             this.Position = position;
@@ -39,17 +41,15 @@ namespace Airwars.Models
         public async Task HandleAirplane(Airplane airplane)
         {
             // Simular el tiempo de espera en el nodo (por ejemplo, 2 segundos)
-            await Task.Delay(2000);
+            await Task.Delay(5000);
 
-            // Recargar una cantidad aleatoria de combustible entre 10 y 50 unidades
-            Random random = new Random();
-            int fuelToAdd = random.Next(150, 400); 
-            airplane.fuel = Math.Min(airplane.fuel + fuelToAdd, 2000); 
+            // Recargar una cantidad aleatoria de combustible entre 150 y 900 unidades
+            int fuelToAdd = _random.Next(150, 900);
+            airplane.fuel = Math.Min(airplane.fuel + fuelToAdd, 1000);
 
             Debug.WriteLine($"El avión {airplane.Guid} ha sido recargado con {fuelToAdd} unidades de combustible. Combustible actual: {airplane.fuel}");
 
-            
-            airplane.ChooseRandomDestinationAndCalculateRoute();
+            await Task.Run(async () => await airplane.ChooseRandomDestinationAndCalculateRoute());
         }
     }
 }

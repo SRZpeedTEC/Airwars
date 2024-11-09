@@ -1,5 +1,6 @@
 ﻿using Airwars.Utiles;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace Airwars.Models
             Debug.WriteLine("Nodes added");
             GenerateRoutes();
             Debug.WriteLine("Routes added");
-            StartAirplaneGenerators();
+            _ = StartAirplaneGenerators();
 
 
 
@@ -86,13 +87,42 @@ namespace Airwars.Models
 
         public void GenerateRoutes()
         {
+            List<Node> unconnectedNodes = Graph.ToList(); // Lista de nodos sin conectar
+            List<Node> connectedNodes = new List<Node>(); // Nodos ya conectados
 
-            List<Node> unconnectedNodes = Graph.ToList();
+            
+            if (unconnectedNodes.Count > 0)
+            {
+                connectedNodes.Add(unconnectedNodes[0]);
+                unconnectedNodes.RemoveAt(0);
+            }
 
+            Random rand = new Random();
+
+            
+            while (unconnectedNodes.Count > 0)
+            {
+                Node node = unconnectedNodes[0]; 
+                Node connectedNode = connectedNodes[rand.Next(connectedNodes.Count)]; 
+
+                
+                if (!node.Routes.Any(r => r.destination == connectedNode))
+                {
+                    double weight = genericos.CalculateWeigthRoutes(node, connectedNode);
+                    AddRoutes(node, connectedNode, weight);
+                    AddRoutes(connectedNode, node, weight);
+                }
+
+                
+                connectedNodes.Add(node);
+                unconnectedNodes.RemoveAt(0);
+            }
+
+            
             foreach (Node node in Graph)
             {
                 List<Node> possibleDestinations = Graph.Where(n => n != node).ToList();
-                int numberConnections = 1;
+                int numberConnections = 1; // Número de conexiones adicionales deseadas por nodo
 
                 for (int i = 0; i < numberConnections; i++)
                 {
@@ -106,9 +136,6 @@ namespace Airwars.Models
                     }
                 }
             }
-
-
-
         }
 
         public void AddRoutes(Node Origin, Node Destination, double Weight)
@@ -138,34 +165,30 @@ namespace Airwars.Models
             }
         }
 
-        public void StartAirplaneGenerators()
+        public async Task StartAirplaneGenerators()
         {
-            // Inicia un nuevo hilo que ejecutará la lógica de generación de aviones
-            Task.Run(async () =>
+            Random rand = new Random();
+
+            while (true) // Bucle infinito para generar aviones continuamente
             {
-                while (true) // Bucle infinito para generar aviones continuamente
+                // Retraso aleatorio entre 1 y 5 segundos
+                int delay = rand.Next(1000, 5000);
+                await Task.Delay(delay); // No bloquea la UI
+
+                
+                Airport randomAirport = AirportsInMap[rand.Next(AirportsInMap.Count)];
+
+                if (randomAirport.HangarCapacity > 0)
                 {
-                    
-                    int delay = rand.Next(1000, 5000);
-                    await Task.Delay(delay);
-
-                    // Elegir un aeropuerto aleatorio de la lista de aeropuertos
-                    Airport randomAirport = AirportsInMap[rand.Next(AirportsInMap.Count)];
-
-
-                    if (randomAirport.HangarCapacity > 0)
-
-                    {
-
-                        Airplane newAirplane = randomAirport.CreateAirplane();
-                        randomAirport.HandleAirplane(newAirplane);
-                        AirplanesInMap.Add(newAirplane);
-                        
-                    }
-                    
+                    // Crear un nuevo avión y manejarlo asincrónicamente
+                    Airplane newAirplane = randomAirport.CreateAirplane();
+                    await Task.Run(() => newAirplane.ChooseRandomDestinationAndCalculateRoute());
+                    AirplanesInMap.Add(newAirplane);
                 }
-            });
+            }
         }
+
+
 
 
 

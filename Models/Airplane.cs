@@ -14,9 +14,10 @@ namespace Airwars.Models
     public class Airplane
     {
         public Guid Guid { get; set; }
-        public int fuel = 500;
+        public int fuel = 1500;
         public int CoolDownFly= 0;
         private Genericos genericos = new Genericos(null);
+        private static readonly Random _random = new Random();
 
 
         public bool inRoute = false; //Determina si el avión ya tiene una nodo destino 
@@ -47,36 +48,25 @@ namespace Airwars.Models
         }
 
 
-        public void ChooseRandomDestinationAndCalculateRoute()
+        public async Task ChooseRandomDestinationAndCalculateRoute()
         {
-            Random rand = new Random();
-            Node DestinationNode = CurrentNode.AllNodes[rand.Next(CurrentNode.AllNodes.Count)];
-
-            if (DestinationNode != CurrentNode)
+            Node destinationNode;
+            do
             {
-                CalculateShortestPathTo(DestinationNode);
+                destinationNode = CurrentNode.AllNodes[_random.Next(CurrentNode.AllNodes.Count)];
+            } while (destinationNode == CurrentNode);
 
-                if (ShortestPath.Count > 0)
-                {
-                    Node nextNode = ShortestPath[1]; // El siguiente nodo a alcanzar
-                    RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
-                    inRoute = true;
-                }
-                else { ChooseRandomDestinationAndCalculateRoute(); }
-
-            }
-            else
-            {
-                ChooseRandomDestinationAndCalculateRoute();
-            }
-            // Agregar Debug después de calcular la ruta
-            //Debug.WriteLine($"El avión de prueba se encuentra en {CurrentNode.Position} y quiere ir al nodo {DestinationNode.Position}");
+            await CalculateShortestPathTo(destinationNode);
 
             if (ShortestPath.Count > 0)
             {
-                //Debug.WriteLine("La ruta a seguir es:");
-                double totalWeight = 0;
+                Node nextNode = ShortestPath[1];
+                RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
+                inRoute = true;
 
+                Debug.WriteLine($"El avión se encuentra en {CurrentNode.Position} y se dirige al nodo {destinationNode.Position}");
+
+                double totalWeight = 0;
                 for (int i = 0; i < ShortestPath.Count - 1; i++)
                 {
                     Node current = ShortestPath[i];
@@ -89,75 +79,77 @@ namespace Airwars.Models
                         totalWeight += route.weight;
                     }
                 }
-
-                //Debug.WriteLine($"Peso total de la ruta: {totalWeight}");
+                Debug.WriteLine($"Peso total de la ruta: {totalWeight}");
             }
             else
             {
-                //Debug.WriteLine("No se encontró una ruta.");
+                Debug.WriteLine("No se encontró una ruta.");
             }
         }
 
-        private void CalculateShortestPathTo(Node destination)
+        private async Task CalculateShortestPathTo(Node destination)
         {
-            var distances = new Dictionary<Node, double>();       // Guardar distancias mínimas
-            var previousNodes = new Dictionary<Node, Node>();     // Guardar el nodo previo en el camino más corto
-            var unvisitedNodes = new List<Node>(CurrentNode.AllNodes);
-
-            foreach (var node in unvisitedNodes)
+            await Task.Run(async () =>
             {
-                distances[node] = double.MaxValue;
-            }
-            distances[CurrentNode] = 0;
+                var distances = new Dictionary<Node, double>();
+                var previousNodes = new Dictionary<Node, Node>();
+                var unvisitedNodes = new HashSet<Node>(CurrentNode.AllNodes);
 
-            while (unvisitedNodes.Count > 0)
-            {
-                
-                Node closestNode = null;
-                double shortestDistance = double.MaxValue;
                 foreach (var node in unvisitedNodes)
                 {
-                    if (distances[node] < shortestDistance)
-                    {
-                        shortestDistance = distances[node];
-                        closestNode = node;
-                    }
+                    distances[node] = double.MaxValue;
                 }
+                distances[CurrentNode] = 0;
 
-                if (closestNode == null)
-                    break;
-
-                unvisitedNodes.Remove(closestNode);
-
-                
-                foreach (var route in closestNode.Routes)
+                while (unvisitedNodes.Count > 0)
                 {
-                    Node neighbor = route.destination;
-                    double tentativeDistance = distances[closestNode] + route.weight;
+                    Node closestNode = null;
+                    double shortestDistance = double.MaxValue;
 
-                    if (tentativeDistance < distances[neighbor])
+                    // Encuentra el nodo más cercano
+                    foreach (var node in unvisitedNodes)
                     {
-                        distances[neighbor] = tentativeDistance;
-                        previousNodes[neighbor] = closestNode;
+                        if (distances[node] < shortestDistance)
+                        {
+                            shortestDistance = distances[node];
+                            closestNode = node;
+                        }
                     }
+
+                    if (closestNode == null || closestNode == destination)
+                        break;
+
+                    unvisitedNodes.Remove(closestNode);
+
+                    // Recorre los nodos adyacentes
+                    foreach (var route in closestNode.Routes)
+                    {
+                        Node neighbor = route.destination;
+                        double tentativeDistance = distances[closestNode] + route.weight;
+
+                        if (tentativeDistance < distances[neighbor])
+                        {
+                            distances[neighbor] = tentativeDistance;
+                            previousNodes[neighbor] = closestNode;
+                        }
+                    }
+
+                    // Da un respiro al hilo principal para evitar bloqueos
+                    await Task.Yield(); // Libera el control para actualizar la UI y seguir con el ciclo
+
                 }
 
-                
-                if (closestNode == destination)
+                // Reconstruir la ruta más corta
+                ShortestPath.Clear();
+                for (Node at = destination; at != null; at = previousNodes.ContainsKey(at) ? previousNodes[at] : null)
                 {
-                    break;
+                    ShortestPath.Insert(0, at);
                 }
-            }
-
-            // Reconstruir la ruta más corta
-            ShortestPath.Clear();
-            for (Node at = destination; at != null; at = previousNodes.ContainsKey(at) ? previousNodes[at] : null)
-            {
-                ShortestPath.Insert(0, at);
-            }
+            });
         }
 
-       
+
+
 
         public async void MoveAlongPath()
         {
