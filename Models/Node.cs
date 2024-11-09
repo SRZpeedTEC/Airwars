@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,10 +43,10 @@ namespace Airwars.Models
 
             // Recargar una cantidad aleatoria de combustible entre 10 y 50 unidades
             Random random = new Random();
-            int fuelToAdd = random.Next(10, 51); // Entre 10 y 50
-            airplane.fuel = Math.Min(airplane.fuel + fuelToAdd, 100); // Limitar a un máximo de 100
+            int fuelToAdd = random.Next(150, 400); 
+            airplane.fuel = Math.Min(airplane.fuel + fuelToAdd, 2000); 
 
-            Console.WriteLine($"El avión {airplane.Guid} ha sido recargado con {fuelToAdd} unidades de combustible. Combustible actual: {airplane.fuel}");
+            Debug.WriteLine($"El avión {airplane.Guid} ha sido recargado con {fuelToAdd} unidades de combustible. Combustible actual: {airplane.fuel}");
 
             
             airplane.ChooseRandomDestinationAndCalculateRoute();

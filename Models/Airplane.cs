@@ -14,7 +14,7 @@ namespace Airwars.Models
     public class Airplane
     {
         public Guid Guid { get; set; }
-        public int fuel = 100;
+        public int fuel = 500;
         public int CoolDownFly= 0;
         private Genericos genericos = new Genericos(null);
 
@@ -55,9 +55,14 @@ namespace Airwars.Models
             if (DestinationNode != CurrentNode)
             {
                 CalculateShortestPathTo(DestinationNode);
-                Node nextNode = ShortestPath[1]; // El siguiente nodo a alcanzar
-                RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
-                inRoute = true;
+
+                if (ShortestPath.Count > 0)
+                {
+                    Node nextNode = ShortestPath[1]; // El siguiente nodo a alcanzar
+                    RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
+                    inRoute = true;
+                }
+                else { ChooseRandomDestinationAndCalculateRoute(); }
 
             }
             else
@@ -65,11 +70,11 @@ namespace Airwars.Models
                 ChooseRandomDestinationAndCalculateRoute();
             }
             // Agregar Debug después de calcular la ruta
-            Debug.WriteLine($"El avión de prueba se encuentra en {CurrentNode.Position} y quiere ir al nodo {DestinationNode.Position}");
+            //Debug.WriteLine($"El avión de prueba se encuentra en {CurrentNode.Position} y quiere ir al nodo {DestinationNode.Position}");
 
             if (ShortestPath.Count > 0)
             {
-                Debug.WriteLine("La ruta a seguir es:");
+                //Debug.WriteLine("La ruta a seguir es:");
                 double totalWeight = 0;
 
                 for (int i = 0; i < ShortestPath.Count - 1; i++)
@@ -85,11 +90,11 @@ namespace Airwars.Models
                     }
                 }
 
-                Debug.WriteLine($"Peso total de la ruta: {totalWeight}");
+                //Debug.WriteLine($"Peso total de la ruta: {totalWeight}");
             }
             else
             {
-                Debug.WriteLine("No se encontró una ruta.");
+                //Debug.WriteLine("No se encontró una ruta.");
             }
         }
 
@@ -154,61 +159,66 @@ namespace Airwars.Models
 
        
 
-        public void MoveAlongPath()
+        public async void MoveAlongPath()
         {
-
-            if (inRoute)
-            {
-
-
-
-                if (ShortestPath.Count > 0)
+            
+                if (inRoute)
                 {
 
 
 
-                    if (ShortestPath.Count == 1) // El avión llegó a su destino
+                    if (ShortestPath.Count > 0)
                     {
-                        inRoute = false;
-                        CurrentNode.HandleAirplane(this);
-                        Debug.WriteLine("El avión ha llegado a su destino.");
-                        return;
-                    }
-
-                    Node nextNode = ShortestPath[1]; // El siguiente nodo a alcanzar
 
 
-                    if (Position == nextNode.Position)
-                    {
-                        ShortestPath.RemoveAt(1);
+
+                        if (ShortestPath.Count == 1) // El avión llegó a su destino
+                        {
+                            inRoute = false;
+                            await CurrentNode.HandleAirplane(this);
+                            Debug.WriteLine("El avión ha llegado a su destino.");
+                            fuel--;
+                            return;
+                        }
+
+                        Node nextNode = ShortestPath[1]; // El siguiente nodo a alcanzar
+
+
+                        if (Position == nextNode.Position)
+                        {
+                            ShortestPath.RemoveAt(1);
+                            RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
+                            fuel--;
+                            return;
+                        }
+
+
+
                         RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
-                        return;
+
+                        Position = RutaActual[1];
+                        fuel--;
+                        RutaActual.RemoveAt(0);
+
+
+
+
+
+
+                        CurrentNode = nextNode;
+
+
+
+
+
                     }
-
-
-
-                    RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
-
-                    Position = RutaActual[1];
-                    RutaActual.RemoveAt(0);
-
-
-                   
-
-
-
-                    CurrentNode = nextNode;
-
-
-
-
-
                 }
-            }
-            else
-            {
-                Debug.WriteLine($"No hay ruta calculada para el avion de ID: {Guid} .");
-            }
+                else
+                {
+                    //Debug.WriteLine($"No hay ruta calculada para el avion de ID: {Guid} .");
+                }
+            
+            
 
         }
 

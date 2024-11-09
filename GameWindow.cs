@@ -98,7 +98,16 @@ namespace Airwars
             List<Airplane> airplanesCopy = new List<Airplane>(Mapa.AirplanesInMap);
             foreach (Airplane avion in airplanesCopy)
             {
-                avion.MoveAlongPath();
+                if (avion.fuel != 0)
+                {
+                    avion.MoveAlongPath();
+                }
+                else
+                {
+                    
+                    Mapa.AirplanesInMap.Remove(avion);
+                    Debug.WriteLine($"El avión de ID {avion.Guid} se ha quedado sin combustible"); //si fuese necesario añadir una lista de aviones muertos, habria que agregarle este avion aqui
+                }
             }
 
 
