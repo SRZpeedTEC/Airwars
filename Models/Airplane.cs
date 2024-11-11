@@ -69,7 +69,7 @@ namespace Airwars.Models
             List<Node> AllNodesToVisit = AllNodes.Where(n => n != CurrentNode).ToList();
             Node destinationNode = AllNodesToVisit[_random.Next(AllNodesToVisit.Count)];
 
-            CalculateShortestPathTo(destinationNode);
+            await CalculateShortestPathTo(destinationNode);
 
             if (ShortestPath.Count > 0)
             {
