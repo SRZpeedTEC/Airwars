@@ -64,13 +64,12 @@ namespace Airwars.Models
 
         public async Task ChooseRandomDestinationAndCalculateRoute()
         {
-            Node destinationNode;
-            do
-            {
-                destinationNode = CurrentNode.AllNodes[_random.Next(CurrentNode.AllNodes.Count)];
-            } while (destinationNode == CurrentNode);
+            
+            List<Node> AllNodes = CurrentNode.AllNodes;
+            List<Node> AllNodesToVisit = AllNodes.Where(n => n != CurrentNode).ToList();
+            Node destinationNode = AllNodesToVisit[_random.Next(AllNodesToVisit.Count)];
 
-            await CalculateShortestPathTo(destinationNode);
+            CalculateShortestPathTo(destinationNode);
 
             if (ShortestPath.Count > 0)
             {
@@ -103,54 +102,38 @@ namespace Airwars.Models
 
         private async Task CalculateShortestPathTo(Node destination)
         {
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
                 var distances = new Dictionary<Node, double>();
                 var previousNodes = new Dictionary<Node, Node>();
-                var unvisitedNodes = new HashSet<Node>(CurrentNode.AllNodes);
+                var priorityQueue = new PriorityQueue<Node, double>();
 
-                foreach (var node in unvisitedNodes)
+                foreach (var node in CurrentNode.AllNodes)
                 {
                     distances[node] = double.MaxValue;
                 }
                 distances[CurrentNode] = 0;
+                priorityQueue.Enqueue(CurrentNode, 0);
 
-                while (unvisitedNodes.Count > 0)
+                while (priorityQueue.Count > 0)
                 {
-                    Node closestNode = null;
-                    double shortestDistance = double.MaxValue;
+                    Node currentNode = priorityQueue.Dequeue();
 
-                    // Encuentra el nodo más cercano
-                    foreach (var node in unvisitedNodes)
-                    {
-                        if (distances[node] < shortestDistance)
-                        {
-                            shortestDistance = distances[node];
-                            closestNode = node;
-                        }
-                    }
-
-                    if (closestNode == null || closestNode == destination)
+                    if (currentNode == destination)
                         break;
 
-                    unvisitedNodes.Remove(closestNode);
-
-                    // Recorre los nodos adyacentes
-                    foreach (var route in closestNode.Routes)
+                    foreach (var route in currentNode.Routes)
                     {
                         Node neighbor = route.destination;
-                        double tentativeDistance = distances[closestNode] + route.weight;
+                        double tentativeDistance = distances[currentNode] + route.weight;
 
                         if (tentativeDistance < distances[neighbor])
                         {
                             distances[neighbor] = tentativeDistance;
-                            previousNodes[neighbor] = closestNode;
+                            previousNodes[neighbor] = currentNode;
+                            priorityQueue.Enqueue(neighbor, tentativeDistance);
                         }
                     }
-
-                    // Da un respiro al hilo principal para evitar bloqueos
-                    await Task.Yield(); // Libera el control para actualizar la UI y seguir con el ciclo
-
                 }
 
                 // Reconstruir la ruta más corta
@@ -161,6 +144,7 @@ namespace Airwars.Models
                 }
             });
         }
+
 
 
 
