@@ -8,6 +8,10 @@ using Airwars.Utiles;
 using System.Diagnostics;
 using System.Security.Policy;
 using System.Xml.Linq;
+using System.Drawing.Drawing2D;
+using Airwars.Properties;
+using Microsoft.VisualBasic.ApplicationServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Airwars.Models
 {
@@ -20,12 +24,19 @@ namespace Airwars.Models
         private static readonly Random _random = new Random();
 
 
+        public static int Width { get; } = 25;
+        public static int Height { get; } = 50;
+        private Image avionImagen;
+
+
         public bool inRoute = false; //Determina si el avión ya tiene una nodo destino 
         public List<Node> ShortestPath { get; private set; } = new List<Node>();
 
         public List<Point> RutaActual { get; private set; }
 
         public Node CurrentNode { get; set; }
+
+        public Node NextNodeInRoute {  get; set; }
         public Point Position { get; set; }
 
         public Pilot pilot { get; set; }
@@ -45,6 +56,9 @@ namespace Airwars.Models
             Tripulacion = new List<AirPlaneModul> { pilot, copilot, manteinance, spaceAwarness };
             CurrentNode = currentNode;
             Position = currentNode.Position;
+            string ImagePath = System.IO.Path.Combine("Resources", "Avion.png");
+            avionImagen = Image.FromFile(ImagePath);
+            avionImagen = new Bitmap(avionImagen, new Size(Width, Height));
         }
 
 
@@ -174,6 +188,7 @@ namespace Airwars.Models
                         }
 
                         Node nextNode = ShortestPath[1]; // El siguiente nodo a alcanzar
+                        NextNodeInRoute = nextNode;
 
 
                         if (Position == nextNode.Position)
@@ -216,9 +231,28 @@ namespace Airwars.Models
 
         public void Draw(Graphics g)
         {
-            Brush brush = Brushes.White; 
-            g.FillEllipse(brush, Position.X, Position.Y, 10, 10); 
+            if (NextNodeInRoute == null)
+                return;
+
+           
+            float deltaX = NextNodeInRoute.Position.X - Position.X;
+            float deltaY = NextNodeInRoute.Position.Y - Position.Y;
+            float angle = (float)(Math.Atan2(deltaY, deltaX) * (180 / Math.PI)) + 90;
+
+            
+            GraphicsState state = g.Save();
+
+            
+            g.TranslateTransform(Position.X, Position.Y);
+            
+            g.RotateTransform(angle);
+            
+            g.DrawImage(avionImagen, -avionImagen.Width / 2, -avionImagen.Height / 2);
+
+            
+            g.Restore(state);
         }
+
 
 
 
