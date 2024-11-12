@@ -31,8 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameWindow));
             label1 = new Label();
             label2 = new Label();
-            label3 = new Label();
             GameBox = new PictureBox();
+            lbltimer = new Label();
+            btnInfoAdicional = new Button();
             ((System.ComponentModel.ISupportInitialize)GameBox).BeginInit();
             SuspendLayout();
             // 
@@ -42,7 +43,7 @@
             label1.BackColor = Color.FromArgb(0, 0, 64);
             label1.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ControlLightLight;
-            label1.Location = new Point(121, 39);
+            label1.Location = new Point(466, 39);
             label1.Name = "label1";
             label1.Size = new Size(285, 25);
             label1.TabIndex = 3;
@@ -55,25 +56,12 @@
             label2.BackColor = Color.FromArgb(0, 0, 64);
             label2.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.ControlLightLight;
-            label2.Location = new Point(1219, 39);
+            label2.Location = new Point(948, 39);
             label2.Name = "label2";
             label2.Size = new Size(116, 25);
             label2.TabIndex = 4;
             label2.Text = "Jugador:";
             label2.Click += label2_Click;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.FromArgb(0, 0, 64);
-            label3.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = SystemColors.ControlLightLight;
-            label3.Location = new Point(695, 39);
-            label3.Name = "label3";
-            label3.Size = new Size(181, 25);
-            label3.TabIndex = 5;
-            label3.Text = "Carga Cohete:";
-            label3.Click += label3_Click;
             // 
             // GameBox
             // 
@@ -86,14 +74,39 @@
             GameBox.TabStop = false;
             GameBox.Click += GameBox_Click;
             // 
+            // lbltimer
+            // 
+            lbltimer.AutoSize = true;
+            lbltimer.BackColor = Color.FromArgb(0, 0, 64);
+            lbltimer.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbltimer.ForeColor = SystemColors.ControlLightLight;
+            lbltimer.Location = new Point(77, 39);
+            lbltimer.Name = "lbltimer";
+            lbltimer.Size = new Size(220, 25);
+            lbltimer.TabIndex = 7;
+            lbltimer.Text = "Tiempo Restante:";
+            lbltimer.Click += label4_Click;
+            // 
+            // btnInfoAdicional
+            // 
+            btnInfoAdicional.BackColor = Color.FromArgb(84, 142, 252);
+            btnInfoAdicional.Location = new Point(1259, 34);
+            btnInfoAdicional.Name = "btnInfoAdicional";
+            btnInfoAdicional.Size = new Size(188, 41);
+            btnInfoAdicional.TabIndex = 8;
+            btnInfoAdicional.Text = "Informacion Adicional";
+            btnInfoAdicional.UseVisualStyleBackColor = false;
+            btnInfoAdicional.Click += btnInfoAdicional_Click;
+            // 
             // GameWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 0, 64);
             ClientSize = new Size(1595, 907);
+            Controls.Add(btnInfoAdicional);
+            Controls.Add(lbltimer);
             Controls.Add(GameBox);
-            Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             ForeColor = SystemColors.ControlText;
@@ -109,7 +122,8 @@
         #endregion
         private Label label1;
         private Label label2;
-        private Label label3;
         public PictureBox GameBox;
+        private Label lbltimer;
+        private Button btnInfoAdicional;
     }
 }

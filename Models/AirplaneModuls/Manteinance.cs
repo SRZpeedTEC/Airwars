@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 namespace Airwars.Models.AirplaneModuls
 {
     public class Manteinance : AirPlaneModul
-    {
-       
-        public string Rol = "Asistance";   
+    {          
         
         public Manteinance(string id)
         {
             this.ID = id;
+            this.Rol = "Asistance";
         }
     }
 }

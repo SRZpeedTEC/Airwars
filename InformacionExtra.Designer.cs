@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            comboBox1 = new ComboBox();
+            selectAirplane = new ComboBox();
             label2 = new Label();
             listBox1 = new ListBox();
             listBox2 = new ListBox();
             label3 = new Label();
-            listBox3 = new ListBox();
-            listBox4 = new ListBox();
+            AirplaneModulesInformation = new ListBox();
+            AirPlanesModulesSorted = new ListBox();
             label4 = new Label();
             label5 = new Label();
-            listBox5 = new ListBox();
+            AvionesDestruidosOrdenados = new ListBox();
             label6 = new Label();
-            comboBox2 = new ComboBox();
+            SelectSortCriterio = new ComboBox();
             SuspendLayout();
             // 
             // label1
@@ -53,13 +53,14 @@
             label1.TabIndex = 0;
             label1.Text = "Caminos Calculados por los Aviones";
             // 
-            // comboBox1
+            // selectAirplane
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(18, 268);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(139, 23);
-            comboBox1.TabIndex = 1;
+            selectAirplane.FormattingEnabled = true;
+            selectAirplane.Location = new Point(18, 268);
+            selectAirplane.Name = "selectAirplane";
+            selectAirplane.Size = new Size(139, 23);
+            selectAirplane.TabIndex = 1;
+            selectAirplane.SelectedIndexChanged += selectAirplane_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -100,23 +101,24 @@
             label3.Text = "Atributos Aviones";
             label3.Click += label3_Click;
             // 
-            // listBox3
+            // AirplaneModulesInformation
             // 
-            listBox3.FormattingEnabled = true;
-            listBox3.ItemHeight = 15;
-            listBox3.Location = new Point(18, 297);
-            listBox3.Name = "listBox3";
-            listBox3.Size = new Size(250, 94);
-            listBox3.TabIndex = 7;
+            AirplaneModulesInformation.FormattingEnabled = true;
+            AirplaneModulesInformation.ItemHeight = 15;
+            AirplaneModulesInformation.Location = new Point(18, 297);
+            AirplaneModulesInformation.Name = "AirplaneModulesInformation";
+            AirplaneModulesInformation.Size = new Size(250, 94);
+            AirplaneModulesInformation.TabIndex = 7;
             // 
-            // listBox4
+            // AirPlanesModulesSorted
             // 
-            listBox4.FormattingEnabled = true;
-            listBox4.ItemHeight = 15;
-            listBox4.Location = new Point(349, 297);
-            listBox4.Name = "listBox4";
-            listBox4.Size = new Size(250, 94);
-            listBox4.TabIndex = 8;
+            AirPlanesModulesSorted.FormattingEnabled = true;
+            AirPlanesModulesSorted.ItemHeight = 15;
+            AirPlanesModulesSorted.Location = new Point(349, 297);
+            AirPlanesModulesSorted.Name = "AirPlanesModulesSorted";
+            AirPlanesModulesSorted.Size = new Size(250, 94);
+            AirPlanesModulesSorted.TabIndex = 8;
+            AirPlanesModulesSorted.SelectedIndexChanged += AirPlanesModulesSorted_SelectedIndexChanged;
             // 
             // label4
             // 
@@ -139,14 +141,14 @@
             label5.Text = "Lista de aviones destruidos ordenados";
             label5.Click += label5_Click;
             // 
-            // listBox5
+            // AvionesDestruidosOrdenados
             // 
-            listBox5.FormattingEnabled = true;
-            listBox5.ItemHeight = 15;
-            listBox5.Location = new Point(18, 445);
-            listBox5.Name = "listBox5";
-            listBox5.Size = new Size(665, 124);
-            listBox5.TabIndex = 11;
+            AvionesDestruidosOrdenados.FormattingEnabled = true;
+            AvionesDestruidosOrdenados.ItemHeight = 15;
+            AvionesDestruidosOrdenados.Location = new Point(18, 445);
+            AvionesDestruidosOrdenados.Name = "AvionesDestruidosOrdenados";
+            AvionesDestruidosOrdenados.Size = new Size(665, 124);
+            AvionesDestruidosOrdenados.TabIndex = 11;
             // 
             // label6
             // 
@@ -158,13 +160,15 @@
             label6.TabIndex = 12;
             label6.Text = "Panel de Control";
             // 
-            // comboBox2
+            // SelectSortCriterio
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(349, 268);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(139, 23);
-            comboBox2.TabIndex = 13;
+            SelectSortCriterio.FormattingEnabled = true;
+            SelectSortCriterio.Items.AddRange(new object[] { "ID", "Rol", "Flighthours" });
+            SelectSortCriterio.Location = new Point(349, 268);
+            SelectSortCriterio.Name = "SelectSortCriterio";
+            SelectSortCriterio.Size = new Size(139, 23);
+            SelectSortCriterio.TabIndex = 13;
+            SelectSortCriterio.SelectedIndexChanged += SelectSortCriterio_SelectedIndexChanged;
             // 
             // InformacionExtra
             // 
@@ -172,18 +176,18 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(209, 231, 254);
             ClientSize = new Size(714, 591);
-            Controls.Add(comboBox2);
+            Controls.Add(SelectSortCriterio);
             Controls.Add(label6);
-            Controls.Add(listBox5);
+            Controls.Add(AvionesDestruidosOrdenados);
             Controls.Add(label5);
             Controls.Add(label4);
-            Controls.Add(listBox4);
-            Controls.Add(listBox3);
+            Controls.Add(AirPlanesModulesSorted);
+            Controls.Add(AirplaneModulesInformation);
             Controls.Add(label3);
             Controls.Add(listBox2);
             Controls.Add(listBox1);
             Controls.Add(label2);
-            Controls.Add(comboBox1);
+            Controls.Add(selectAirplane);
             Controls.Add(label1);
             Name = "InformacionExtra";
             Text = "InformacionExtra";
@@ -194,17 +198,17 @@
         #endregion
 
         private Label label1;
-        private ComboBox comboBox1;
+        private ComboBox selectAirplane;
         private Label label2;
         private ListBox listBox1;
         private ListBox listBox2;
         private Label label3;
-        private ListBox listBox3;
-        private ListBox listBox4;
+        private ListBox AirplaneModulesInformation;
+        private ListBox AirPlanesModulesSorted;
         private Label label4;
         private Label label5;
-        private ListBox listBox5;
+        private ListBox AvionesDestruidosOrdenados;
         private Label label6;
-        private ComboBox comboBox2;
+        private ComboBox SelectSortCriterio;
     }
 }

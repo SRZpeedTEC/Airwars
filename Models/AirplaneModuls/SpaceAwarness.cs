@@ -9,11 +9,12 @@ namespace Airwars.Models.AirplaneModuls
 {
     public class SpaceAwarness : AirPlaneModul
     {
-        public string Rol = "Asistance";
+        
 
         public SpaceAwarness(string id)
         {
             this.ID = id;
+            this.Rol = "Asistance";
         }
     }
 }

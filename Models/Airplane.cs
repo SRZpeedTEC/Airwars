@@ -20,6 +20,8 @@ namespace Airwars.Models
         public Guid Guid { get; set; }
         public int fuel = 1500;
         public int CoolDownFly= 0;
+        public bool isDestroyed = false;
+        public InformacionExtra informacionExtra;
         private Genericos genericos = new Genericos(null);
         private static readonly Random _random = new Random();
 
@@ -46,6 +48,14 @@ namespace Airwars.Models
 
         public List<AirPlaneModul> Tripulacion { get; set; }
 
+        public Rectangle Hitbox
+        {
+            get
+            {
+                return new Rectangle(Position.X, Position.Y, avionImagen.Width, avionImagen.Height);
+            }
+        }
+
         public Airplane(Node currentNode)
         {
             Guid = Guid.NewGuid();
@@ -59,6 +69,7 @@ namespace Airwars.Models
             string ImagePath = System.IO.Path.Combine("Resources", "Avion.png");
             avionImagen = Image.FromFile(ImagePath);
             avionImagen = new Bitmap(avionImagen, new Size(Width, Height));
+            informacionExtra = InformacionExtra.GetInstance();
         }
 
 
@@ -146,9 +157,6 @@ namespace Airwars.Models
         }
 
 
-
-
-
         public async void MoveAlongPath()
         {
             
@@ -184,7 +192,6 @@ namespace Airwars.Models
                         }
 
 
-
                         RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
 
                         Position = RutaActual[1];
@@ -192,14 +199,7 @@ namespace Airwars.Models
                         RutaActual.RemoveAt(0);
 
 
-
-
-
-
                         CurrentNode = nextNode;
-
-
-
 
 
                     }
@@ -213,6 +213,11 @@ namespace Airwars.Models
 
         }
 
+        public void chechIsDestroyed()
+        {
+            isDestroyed = true;
+        }
+            
         public void Draw(Graphics g)
         {
             if (NextNodeInRoute == null)
@@ -236,9 +241,6 @@ namespace Airwars.Models
             
             g.Restore(state);
         }
-
-
-
 
 
     }

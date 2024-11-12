@@ -8,10 +8,11 @@ namespace Airwars.Models.AirplaneModuls
 {
     public class Copilot : AirPlaneModul
     {
-        public string Rol = "Copilot";
+        
         public Copilot(string id)
         {
             this.ID = id;
-        }
+            this.Rol = "Copilot";
+    }
     }
 }

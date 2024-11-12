@@ -22,6 +22,7 @@ namespace Airwars.Models
 
         public List<Airplane> AirplanesInMap { get; set; }
         public List<Airport> AirportsInMap { get; set; }
+        public List<Airplane> DownedPlanes = new List<Airplane>();
 
         public Genericos genericos;
         Random rand = new Random();

@@ -9,7 +9,7 @@ namespace Airwars.AlgoritmosDeOrdenamiento
 {
     public class SelectionSort
     {
-        public static void SelectionSortTripulacion(List<AirPlaneModul> tripulacion, string criterio)
+        public static List<AirPlaneModul> SelectionSortTripulacion(List<AirPlaneModul> tripulacion, string criterio)
         {
             int n = tripulacion.Count;
             for (int i = 0; i < n - 1; i++)
@@ -44,6 +44,7 @@ namespace Airwars.AlgoritmosDeOrdenamiento
                     tripulacion[i] = temp;
                 }
             }
+            return tripulacion;
         }
     }
 }

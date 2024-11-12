@@ -14,6 +14,7 @@ namespace Airwars.Models
     {
         public int HangarCapacity = 20;
         private bool generatingAirplanes = false; // Controla si se están generando aviones
+
         
 
         public Airport(Point position) : base(position)
@@ -21,6 +22,8 @@ namespace Airwars.Models
             this.Position = position;
             
         }
+
+
 
         public override void RechargeFuel()
         {
