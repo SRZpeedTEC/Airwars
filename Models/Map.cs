@@ -172,19 +172,40 @@ namespace Airwars.Models
 
             while (true) // Bucle infinito para generar aviones continuamente
             {
-                // Retraso aleatorio entre 1 y 5 segundos
-                int delay = rand.Next(1000, 5000);
-                await Task.Delay(delay); // No bloquea la UI
-
-                
-                Airport randomAirport = AirportsInMap[rand.Next(AirportsInMap.Count)];
-
-                if (randomAirport.HangarCapacity > 0)
+                if (AirplanesInMap.Count < 10)
                 {
-                    // Crear un nuevo avión y manejarlo asincrónicamente
-                    Airplane newAirplane = randomAirport.CreateAirplane();
-                    await Task.Run(() => newAirplane.ChooseRandomDestinationAndCalculateRoute());
-                    AirplanesInMap.Add(newAirplane);
+
+                    int delay = rand.Next(1000, 5000);
+                    await Task.Delay(delay);
+
+
+                    Airport randomAirport = AirportsInMap[rand.Next(AirportsInMap.Count)];
+
+                    if (randomAirport.HangarCapacity > 0)
+                    {
+                        // Crear un nuevo avión y manejarlo asincrónicamente
+                        Airplane newAirplane = randomAirport.CreateAirplane();
+                        await Task.Run(() => newAirplane.ChooseRandomDestinationAndCalculateRoute());
+                        AirplanesInMap.Add(newAirplane);
+                    }
+                }
+                else
+                {
+
+                    int delay = rand.Next(7000, 15000);
+                    await Task.Delay(delay);
+
+
+                    Airport randomAirport = AirportsInMap[rand.Next(AirportsInMap.Count)];
+
+                    if (randomAirport.HangarCapacity > 0)
+                    {
+
+                        Airplane newAirplane = randomAirport.CreateAirplane();
+                        await Task.Run(() => newAirplane.ChooseRandomDestinationAndCalculateRoute());
+                        AirplanesInMap.Add(newAirplane);
+                    }
+
                 }
             }
         }
