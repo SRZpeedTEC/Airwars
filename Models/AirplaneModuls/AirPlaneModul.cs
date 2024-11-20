@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Airwars.Models.AirplaneModuls
 {
-    abstract public class AirPlaneModul
+    abstract public class AirPlaneModule
     {
         public string ID { get; set; }
         public string Rol;

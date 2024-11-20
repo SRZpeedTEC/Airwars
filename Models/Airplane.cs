@@ -46,7 +46,7 @@ namespace Airwars.Models
         public Manteinance manteinance { get; set; }
         public SpaceAwarness spaceAwarness { get; set; }
 
-        public List<AirPlaneModul> Tripulacion { get; set; }
+        public List<AirPlaneModule> Tripulacion { get; set; }
 
         public Rectangle Hitbox
         {
@@ -63,7 +63,7 @@ namespace Airwars.Models
             copilot = new Copilot(genericos.GenerateID(3));
             manteinance = new Manteinance(genericos.GenerateID(3));
             spaceAwarness = new SpaceAwarness(genericos.GenerateID(3));
-            Tripulacion = new List<AirPlaneModul> { pilot, copilot, manteinance, spaceAwarness };
+            Tripulacion = new List<AirPlaneModule> { pilot, copilot, manteinance, spaceAwarness };
             CurrentNode = currentNode;
             Position = currentNode.Position;
             string ImagePath = System.IO.Path.Combine("Resources", "Avion.png");
@@ -203,9 +203,9 @@ namespace Airwars.Models
 
                         Position = RutaActual[1];
                         fuel--;
-                        foreach (AirPlaneModul am in Tripulacion)
+                        foreach (AirPlaneModule module in Tripulacion)
                         {
-                        am.Fly();
+                        module.Fly();
                         }
                         RutaActual.RemoveAt(0);
 

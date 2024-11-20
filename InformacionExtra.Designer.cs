@@ -44,10 +44,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Unispace", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(18, 43);
             label1.Name = "label1";
-            label1.Size = new Size(245, 14);
+            label1.Size = new Size(239, 15);
             label1.TabIndex = 0;
             label1.Text = "Caminos Calculados por los Aviones";
             // 
@@ -72,10 +72,10 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Unispace", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.Location = new Point(18, 241);
             label3.Name = "label3";
-            label3.Size = new Size(126, 14);
+            label3.Size = new Size(116, 15);
             label3.TabIndex = 6;
             label3.Text = "Atributos Aviones";
             label3.Click += label3_Click;
@@ -102,20 +102,20 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Unispace", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.Location = new Point(349, 241);
             label4.Name = "label4";
-            label4.Size = new Size(140, 14);
+            label4.Size = new Size(137, 15);
             label4.TabIndex = 9;
             label4.Text = "Atributos Ordenados";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Unispace", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.Location = new Point(28, 417);
             label5.Name = "label5";
-            label5.Size = new Size(266, 14);
+            label5.Size = new Size(254, 15);
             label5.TabIndex = 10;
             label5.Text = "Lista de aviones destruidos ordenados";
             label5.Click += label5_Click;
@@ -132,10 +132,10 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Perpetua Titling MT", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.Location = new Point(221, 9);
             label6.Name = "label6";
-            label6.Size = new Size(224, 25);
+            label6.Size = new Size(172, 25);
             label6.TabIndex = 12;
             label6.Text = "Panel de Control";
             // 
@@ -168,6 +168,7 @@
             Controls.Add(label1);
             Name = "InformacionExtra";
             Text = "InformacionExtra";
+            Load += InformacionExtra_Load;
             ResumeLayout(false);
             PerformLayout();
         }

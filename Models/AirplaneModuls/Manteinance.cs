@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Airwars.Models.AirplaneModuls
 {
-    public class Manteinance : AirPlaneModul
+    public class Manteinance : AirPlaneModule
     {          
         
         public Manteinance(string id)

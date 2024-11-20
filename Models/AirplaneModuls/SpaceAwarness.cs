@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Airwars.Models.AirplaneModuls
 {
-    public class SpaceAwarness : AirPlaneModul
+    public class SpaceAwarness : AirPlaneModule
     {
         
 

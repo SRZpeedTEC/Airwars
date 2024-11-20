@@ -18,7 +18,7 @@ namespace Airwars
     {
         public static InformacionExtra Instance = null;
         public List<Airplane> AirplaneSortedList = new List<Airplane>();
-        public List<AirPlaneModul> AirplaneModuleSortedList = new List<AirPlaneModul>();
+        public List<AirPlaneModule> AirplaneModuleSortedList = new List<AirPlaneModule>();
         public Airplane SelectedAirplane;
 
         public static InformacionExtra GetInstance()
@@ -50,7 +50,7 @@ namespace Airwars
         public void clearData()
         {
             AvionesDestruidosOrdenados.Items.Clear();
-            AirplaneSortedList.Clear();          
+            AirplaneSortedList.Clear();
         }
 
         public void selectAirplaneOptions()
@@ -86,7 +86,7 @@ namespace Airwars
             string selectedAirplaneCombobox = selectAirplane.SelectedItem.ToString();
             SelectedAirplane = AirplaneSortedList.Find(airplane => airplane.Guid.ToString() == selectedAirplaneCombobox);
 
-            foreach (AirPlaneModul AirplaneModule in SelectedAirplane.Tripulacion)
+            foreach (AirPlaneModule AirplaneModule in SelectedAirplane.Tripulacion)
             {
                 AirplaneModulesInformation.Items.Add($"{AirplaneModule.GetType().Name}: {AirplaneModule.ID}");
             }
@@ -105,21 +105,21 @@ namespace Airwars
             {
                 case "ID":
                     AirplaneModuleSortedList = SelectionSort.SelectionSortTripulacion(SelectedAirplane.Tripulacion, "id");
-                    foreach (AirPlaneModul Module in AirplaneModuleSortedList)
+                    foreach (AirPlaneModule Module in AirplaneModuleSortedList)
                     {
                         AirPlanesModulesSorted.Items.Add($"{Module.GetType().Name}: {Module.ID}");
                     }
                     break;
                 case "Rol":
                     AirplaneModuleSortedList = SelectionSort.SelectionSortTripulacion(SelectedAirplane.Tripulacion, "rol");
-                    foreach (AirPlaneModul Module in AirplaneModuleSortedList)
+                    foreach (AirPlaneModule Module in AirplaneModuleSortedList)
                     {
                         AirPlanesModulesSorted.Items.Add($"{Module.GetType().Name}: {Module.Rol}");
                     }
                     break;
                 case "Flighthours":
                     AirplaneModuleSortedList = SelectionSort.SelectionSortTripulacion(SelectedAirplane.Tripulacion, "flighthours");
-                    foreach (AirPlaneModul Module in AirplaneModuleSortedList)
+                    foreach (AirPlaneModule Module in AirplaneModuleSortedList)
                     {
                         AirPlanesModulesSorted.Items.Add($"{Module.GetType().Name}: {Module.flightHours}");
                     }
@@ -167,5 +167,9 @@ namespace Airwars
             this.Hide();     // Oculta la ventana
         }
 
+        private void InformacionExtra_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
