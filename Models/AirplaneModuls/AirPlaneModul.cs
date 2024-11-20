@@ -10,11 +10,11 @@ namespace Airwars.Models.AirplaneModuls
     {
         public string ID { get; set; }
         public string Rol;
-        public int flightHours;
+        public double flightHours;
 
         public void Fly()
         {
-            flightHours++;
+            flightHours += 0.1;
         }
     }
 }

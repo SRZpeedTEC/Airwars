@@ -50,7 +50,7 @@ namespace Airwars
         public void clearData()
         {
             AvionesDestruidosOrdenados.Items.Clear();
-            AirplaneSortedList.Clear();
+            AirplaneSortedList.Clear();          
         }
 
         public void selectAirplaneOptions()
@@ -96,6 +96,11 @@ namespace Airwars
         {
             AirPlanesModulesSorted.Items.Clear();
 
+            if (selectAirplane.SelectedItem == null)
+            {
+                return;
+            }
+
             switch (SelectSortCriterio.SelectedItem.ToString())
             {
                 case "ID":
@@ -133,5 +138,34 @@ namespace Airwars
         {
 
         }
+
+        public void AddMessage(string message)
+        {
+            if (InformacionRutas.InvokeRequired)
+            {
+                InformacionRutas.Invoke(new Action(() => InformacionRutas.Items.Add(message)));
+            }
+            else
+            {
+                InformacionRutas.Items.Add(message);
+            }
+        }
+
+        public void ClearMessages()
+        {
+            InformacionRutas.Items.Clear();
+            clearSelectSortCriterio();
+            AirplaneModulesInformation.Items.Clear();
+            selectAirplane.SelectedItem = -1;
+
+
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            e.Cancel = true; // Cancela el evento de cierre
+            this.Hide();     // Oculta la ventana
+        }
+
     }
 }

@@ -30,9 +30,7 @@
         {
             label1 = new Label();
             selectAirplane = new ComboBox();
-            label2 = new Label();
-            listBox1 = new ListBox();
-            listBox2 = new ListBox();
+            InformacionRutas = new ListBox();
             label3 = new Label();
             AirplaneModulesInformation = new ListBox();
             AirPlanesModulesSorted = new ListBox();
@@ -47,7 +45,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Unispace", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(18, 96);
+            label1.Location = new Point(18, 43);
             label1.Name = "label1";
             label1.Size = new Size(245, 14);
             label1.TabIndex = 0;
@@ -62,33 +60,14 @@
             selectAirplane.TabIndex = 1;
             selectAirplane.SelectedIndexChanged += selectAirplane_SelectedIndexChanged;
             // 
-            // label2
+            // InformacionRutas
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Unispace", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(394, 96);
-            label2.Name = "label2";
-            label2.Size = new Size(133, 14);
-            label2.TabIndex = 3;
-            label2.Text = "Pesos de las rutas";
-            // 
-            // listBox1
-            // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(18, 125);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(250, 94);
-            listBox1.TabIndex = 4;
-            // 
-            // listBox2
-            // 
-            listBox2.FormattingEnabled = true;
-            listBox2.ItemHeight = 15;
-            listBox2.Location = new Point(394, 125);
-            listBox2.Name = "listBox2";
-            listBox2.Size = new Size(250, 94);
-            listBox2.TabIndex = 5;
+            InformacionRutas.FormattingEnabled = true;
+            InformacionRutas.ItemHeight = 15;
+            InformacionRutas.Location = new Point(18, 69);
+            InformacionRutas.Name = "InformacionRutas";
+            InformacionRutas.Size = new Size(671, 154);
+            InformacionRutas.TabIndex = 4;
             // 
             // label3
             // 
@@ -154,7 +133,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Perpetua Titling MT", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(219, 37);
+            label6.Location = new Point(221, 9);
             label6.Name = "label6";
             label6.Size = new Size(224, 25);
             label6.TabIndex = 12;
@@ -184,9 +163,7 @@
             Controls.Add(AirPlanesModulesSorted);
             Controls.Add(AirplaneModulesInformation);
             Controls.Add(label3);
-            Controls.Add(listBox2);
-            Controls.Add(listBox1);
-            Controls.Add(label2);
+            Controls.Add(InformacionRutas);
             Controls.Add(selectAirplane);
             Controls.Add(label1);
             Name = "InformacionExtra";
@@ -199,9 +176,7 @@
 
         private Label label1;
         private ComboBox selectAirplane;
-        private Label label2;
-        private ListBox listBox1;
-        private ListBox listBox2;
+        private ListBox InformacionRutas;
         private Label label3;
         private ListBox AirplaneModulesInformation;
         private ListBox AirPlanesModulesSorted;

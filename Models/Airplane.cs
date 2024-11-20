@@ -88,7 +88,9 @@ namespace Airwars.Models
                 RutaActual = genericos.BresenhamLine(Position.X, Position.Y, nextNode.Position.X, nextNode.Position.Y);
                 inRoute = true;
 
-                Debug.WriteLine($"El avión se encuentra en {CurrentNode.Position} y se dirige al nodo {destinationNode.Position}");
+                string message = $"El avión {this.Guid} se encuentra en {CurrentNode.Position} y se dirige al nodo {destinationNode.Position}";
+                sendMessage(message);
+                Debug.WriteLine(message);
 
                 double totalWeight = 0;
                 for (int i = 0; i < ShortestPath.Count - 1; i++)
@@ -99,11 +101,16 @@ namespace Airwars.Models
 
                     if (route != null)
                     {
-                        Debug.WriteLine($"  - De {current.Position} a {next.Position} con peso {route.weight}");
+
+                        string message2 = $" El avión {this.Guid} ira de {current.Position} a {next.Position} con peso {route.weight}";
+                        sendMessage(message2);
+                        Debug.WriteLine(message2);
                         totalWeight += route.weight;
                     }
                 }
-                Debug.WriteLine($"Peso total de la ruta: {totalWeight}");
+                string message3 = $"Peso total de la ruta del avion {this.Guid}: {totalWeight}";
+                sendMessage(message3);
+                Debug.WriteLine(message3);
             }
             else
             {
@@ -196,6 +203,10 @@ namespace Airwars.Models
 
                         Position = RutaActual[1];
                         fuel--;
+                        foreach (AirPlaneModul am in Tripulacion)
+                        {
+                        am.Fly();
+                        }
                         RutaActual.RemoveAt(0);
 
 
@@ -213,7 +224,7 @@ namespace Airwars.Models
 
         }
 
-        public void chechIsDestroyed()
+        public void checkIsDestroyed()
         {
             isDestroyed = true;
         }
@@ -240,6 +251,11 @@ namespace Airwars.Models
 
             
             g.Restore(state);
+        }
+
+        public void sendMessage(string message)
+        {
+            informacionExtra.AddMessage(message);
         }
 
 

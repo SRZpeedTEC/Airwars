@@ -23,6 +23,7 @@ namespace Airwars
         private System.Windows.Forms.Timer GameTimer;
         private int totalGameTime = 40;
         private int timeRemaining;
+        private bool showroutes = false;
         private System.Windows.Forms.Timer gameTimeTimer;
         private DateTime lastMissileFireTime;
         private Genericos genericos;
@@ -91,11 +92,12 @@ namespace Airwars
 
                 foreach (Airplane avion in Mapa.AirplanesInMap)
                 {
-                    if (Misiles[i].CheckCollision(avion.Hitbox))
+
+                    if (avion.inRoute && Misiles[i].CheckCollision(avion.Hitbox))
                     {
                         Misiles.RemoveAt(i);
                         avion.fuel = 0;
-                        avion.chechIsDestroyed();
+                        avion.checkIsDestroyed();
                         Debug.WriteLine($"El avión de ID {avion.Guid} ha sido destruido");
                         informacionExtra.AirplaneSortedList.Add(avion);
                         informacionExtra.UpdateData();
@@ -176,12 +178,19 @@ namespace Airwars
             }
 
             Mapa.DrawMap(e.Graphics);
-            Mapa.DrawRoutes(e.Graphics);
+            if (showroutes)
+            {
+                Mapa.DrawRoutes(e.Graphics);
+            }
 
             // Aquí puedes dibujar otros elementos como aviones
-            foreach (Airplane avion in Mapa.AirplanesInMap) // Colocar un falg de inRoute si quiero que despaarzecan cuando estan en un aeropuerto
+            foreach (Airplane avion in Mapa.AirplanesInMap) 
+
             {
-                avion.Draw(e.Graphics);
+                if (avion.inRoute)
+                {
+                    avion.Draw(e.Graphics);
+                }
             }
 
 
@@ -322,6 +331,7 @@ namespace Airwars
             UpdateScore();
             UpdateTimeLabel();
             informacionExtra.clearData();
+            informacionExtra.ClearMessages();
             informacionExtra.clearAirplaneOptions();
 
             // Reiniciar y comenzar los temporizadores
@@ -385,6 +395,11 @@ namespace Airwars
         {
             InformacionExtra informacionExtra = InformacionExtra.GetInstance();
             informacionExtra.Show();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.showroutes = !showroutes;
         }
     }
 }

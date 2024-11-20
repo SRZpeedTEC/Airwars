@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 
 
@@ -155,16 +156,36 @@ namespace Airwars.Models
 
         public void DrawRoutes(Graphics g)
         {
-            foreach (var nodo in Graph)
+            foreach (var node in Graph)
             {
-                foreach (var arista in nodo.Routes)
+                foreach (var route in node.Routes)
                 {
-                    // Dibujar línea entre nodos
-                    g.DrawLine(Pens.Black, nodo.Position, arista.destination.Position);
+                    // Dibuja la línea de la ruta
+                    Pen pen = new Pen(Color.Gray, 1);
+                    g.DrawLine(pen, node.Position, route.destination.Position);
 
+                    
+                        // Calcula el punto medio de la línea para colocar el peso
+                        Point start = node.Position;
+                        Point end = route.destination.Position;
+
+                        int midX = (start.X + end.X) / 2;
+                        int midY = (start.Y + end.Y) / 2;
+
+                        // Crea una fuente y un pincel para el texto
+                        Font font = new Font("Arial", 8);
+                        Brush brush = Brushes.Black;
+
+                        // Prepara el texto del peso
+                        string weightText = route.weight.ToString("F1"); // Formato con un decimal
+
+                        // Dibuja el texto del peso en el punto medio
+                        g.DrawString(weightText, font, brush, midX, midY);
+                    
                 }
             }
         }
+
 
         public async Task StartAirplaneGenerators()
         {
