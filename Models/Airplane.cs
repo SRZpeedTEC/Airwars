@@ -31,6 +31,7 @@ namespace Airwars.Models
         private Image avionImagen;
 
 
+
         public bool inRoute = false; //Determina si el avión ya tiene una nodo destino 
         public List<Node> ShortestPath { get; private set; } = new List<Node>();
 
@@ -52,9 +53,15 @@ namespace Airwars.Models
         {
             get
             {
-                return new Rectangle(Position.X, Position.Y, avionImagen.Width, avionImagen.Height);
+                return new Rectangle(
+                    Position.X - avionImagen.Width / 2,
+                    Position.Y - avionImagen.Height / 2,
+                    avionImagen.Width,
+                    avionImagen.Height
+                );
             }
         }
+
 
         public Airplane(Node currentNode)
         {

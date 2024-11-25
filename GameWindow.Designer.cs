@@ -108,6 +108,8 @@
             Controls.Add(GameBox);
             Controls.Add(label1);
             ForeColor = SystemColors.ControlText;
+            MaximumSize = new Size(1611, 946);
+            MinimumSize = new Size(1611, 946);
             Name = "GameWindow";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AirWars Game";

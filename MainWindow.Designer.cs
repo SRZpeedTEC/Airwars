@@ -74,6 +74,8 @@
             Controls.Add(pictureBox1);
             Controls.Add(button2);
             Controls.Add(button1);
+            MaximumSize = new Size(850, 850);
+            MinimumSize = new Size(850, 850);
             Name = "MainWindow";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MainWindow";

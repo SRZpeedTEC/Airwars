@@ -166,6 +166,8 @@
             Controls.Add(InformacionRutas);
             Controls.Add(selectAirplane);
             Controls.Add(label1);
+            MaximumSize = new Size(730, 630);
+            MinimumSize = new Size(730, 630);
             Name = "InformacionExtra";
             Text = "InformacionExtra";
             Load += InformacionExtra_Load;
